@@ -2,7 +2,10 @@ width_in = 2.79;
 height_in = 2.08;
 edge_margin_in = 0.15;
 
-bottom_margin = .1;
+perimeter_height = 6.5;
+perimeter_width = 6;
+
+bottom_margin = 0.1;
 
 
 margin = -3;
@@ -23,20 +26,32 @@ main_w = width_in * in_to_mm;
 main_h = height_in * in_to_mm;
 main_d = cup_depth + bottom_margin;
 
-difference(){
-    //translate([- main_w / 2, - main_h / 2, - main_d])
-    translate([0, 0, - main_d])
-    cube([main_w, main_h, main_d]);
+union() {
+    //Perimeter wall
+    difference(){
+        //Perimeter
+        translate([-perimeter_width,
+                   -perimeter_width,
+                   -main_d])
+        cube([main_w + 2*perimeter_width,
+              main_h + 2*perimeter_width,
+              main_d + perimeter_height]);
+        
+        //Body hole
+        translate([0, 0, - main_d + 0.1])
+        cube([main_w, main_h, main_d + perimeter_height + 0.2]);
+    }
     
-    /*union(){
-        line(true);
-        translate([0,2,0]) line(false);
-    }*/
-    translate([main_edge, main_edge, 0])
-    grid(main_w - main_edge*2, main_h - main_edge*2);
-    
-}
+    //Main body
+    difference(){
+        translate([0, 0, - main_d])
+        cube([main_w, main_h, main_d]);
+        
+        translate([main_edge, main_edge, 0])
+        grid(main_w - main_edge*2, main_h - main_edge*2);
+    }
 
+}
 
 module grid(length, width){
     center_distance = cup_height + margin;
