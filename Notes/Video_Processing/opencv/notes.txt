@@ -1,0 +1,22 @@
+import cv2
+import numpy as np
+
+def swc(cam):
+  while True:
+    ret_val, img = cam.read()
+    cv2.imshow('my webcam', img)
+    print("Avg:" + str(int(np.average(img))))
+    if cv2.waitKey(1) == 27: 
+      break
+  cv2.destroyAllWindows()
+
+cam = cv2.VideoCapture(0)
+#Meh ref: https://stackoverflow.com/questions/11420748/setting-camera-parameters-in-opencv-python
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
+swc(cam)
+cam.release()
+
+
+
+#https://www.pyimagesearch.com/2017/01/02/rotate-images-correctly-with-opencv-and-python/
