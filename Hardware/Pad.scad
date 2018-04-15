@@ -1,17 +1,17 @@
-width_in = 3.3;//7.79;
-height_in = 2;//4.71;
+width_in = 2.79;
+height_in = 2.08;
 edge_margin_in = 0.15;
 
 bottom_margin = .1;
 
 
-margin = 6;
-cup_depth = 3;
-cup_width = 13;
-cup_height = 8;
-cup_lift = .9; //[-1, 1]
+margin = -3;
+cup_depth = 4;
+cup_width = 17 + 7;
+cup_height = 11 + 7;
+cup_lift = .3; //[-1, 1]
 
-RESOLUTION = 100;
+RESOLUTION = 50;
 
 row_toggle = false;
 
