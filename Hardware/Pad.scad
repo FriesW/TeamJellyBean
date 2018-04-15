@@ -1,6 +1,6 @@
-width_in = 2.79;
-height_in = 2.08;
-edge_margin_in = 0.15;
+width_in=6.62;
+height_in=5.33;
+edge_margin_in = 0;
 
 perimeter_height = 6.5;
 perimeter_width = 6;
