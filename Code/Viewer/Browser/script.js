@@ -50,7 +50,7 @@ function update(){
         return;
     }
     get(ROOT+source_target, function(resp){
-        gid('primary').src = 'data:image/png;base64,' + resp;
+        gid('primary').src = resp;
         setTimeout(update, 1000 / FRAMERATE);
     });
 }
