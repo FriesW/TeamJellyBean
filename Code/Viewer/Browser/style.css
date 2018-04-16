@@ -18,7 +18,7 @@ h1, h2, h3, h4
     display: inline-block;
 }
 
-#alive
+#alive, #ntwrk
 {
     height: 0.75em;
     width: 0.75em;

@@ -21,9 +21,11 @@ function get(path, callback){
     xhttp.onreadystatechange = function() {
         if( this.readyState == 4 && this.status == 200 ){
             alive();
+            gid('ntwrk').style.backgroundColor = 'green';
             callback(this.responseText);
         }
     };
+    gid('ntwrk').style.backgroundColor = 'red';
     xhttp.open('GET', path, true);
     xhttp.send();
     
