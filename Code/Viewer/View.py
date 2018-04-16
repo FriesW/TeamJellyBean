@@ -5,13 +5,16 @@ import base64
 
 class View:
     def __init__(self, encoding = 'png', default_scale = 1.0, interpolation = cv2.INTER_LINEAR):
-        self.lock = threading.Lock()
-        self.image = np.zeros((100,100,3), np.uint8)
-        self.rendered = None
-        
         self.encoding = encoding
         self.def_scale = default_scale
         self.interpolation = interpolation
+        
+        self.lock = threading.Lock()
+        self.image = np.zeros((72,455,3), np.uint8)
+        cv2.putText(self.image, '! Unset View !', (5, 55), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
+        self.rendered = None
+        
+        self.get_render()
     
     def update(self, image, scale = None):
         if not scale:
