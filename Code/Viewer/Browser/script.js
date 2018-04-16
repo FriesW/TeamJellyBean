@@ -7,10 +7,20 @@ function gid(id){
     return document.getElementById(id);
 }
 
+function alive(){
+    if(typeof alive.counter === 'undefined')
+        alive.counter = 0;
+    gid('alive').style.backgroundColor = 'hsla('+alive.counter+', 90%, 60%, 1)';
+    alive.counter += 10;
+    alive.counter %= 360;
+    
+}
+
 function get(path, callback){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if( this.readyState == 4 && this.status == 200 ){
+            alive();
             callback(this.responseText);
         }
     };

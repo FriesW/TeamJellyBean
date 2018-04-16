@@ -1,0 +1,14 @@
+h1, h2, h3, h4
+{
+    display: inline-block;
+}
+
+#alive
+{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 0.75em;
+    width: 0.75em;
+    background-color: black;
+}
