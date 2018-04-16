@@ -36,17 +36,20 @@ function buildSelectors(selector_string){
     console.log(items);
     var target = gid('selector');
     for(var i = 0; i < items.length; i++) {
+        var parent_fragment = document.createElement('span');
+        parent_fragment.setAttribute('class','no-wrap');
         var fragment = document.createElement('input');
         fragment.setAttribute('name','source_select');
         fragment.setAttribute('type','radio');
         fragment.setAttribute('value',items[i]);
         fragment.addEventListener('click', changeSource);
         fragment.setAttribute('id','remote_'+items[i]);
-        target.appendChild(fragment);
+        parent_fragment.appendChild(fragment);
         var fragment = document.createElement('label');
         fragment.setAttribute('for','remote_'+items[i]);
         fragment.innerHTML = items[i];
-        target.appendChild(fragment);
+        parent_fragment.appendChild(fragment);
+        target.appendChild(parent_fragment);
     }
 }
 

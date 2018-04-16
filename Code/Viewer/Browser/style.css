@@ -26,6 +26,12 @@ h1, h2, h3, h4
     display: inline-block;
 }
 
+input
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
 input[type="number"]
 {
     width: 4em;
@@ -42,4 +48,9 @@ img
     display: block;
     margin-top: 1em;
     margin-bottom: 1em;
+}
+
+.no-wrap
+{
+    white-space: nowrap;
 }
