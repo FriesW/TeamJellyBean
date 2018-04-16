@@ -10,15 +10,27 @@
 </head>
 <body>
 
-<div id="selector">
+<div class="panel" id="selector">
 <h3>Source:</h3>
 </div>
+
+<div class="panel" id="parameters">
+<h3>Parameters:</h3>
+<input type="number"><label>Thing A</label>
+<input type="number"><label>Thing B</label>
+</div>
+
+<div class="panel">
+<h3>Control:</h3>
 <input type="checkbox" id="run" checked>
-<label for="run">Run/Stop</label>
-
-<br><img id="primary">
-
+<label for="run">Refresh</label>
 <div id="alive"></div>
+<label>Alive</label>
+</div>
+
+<div class="panel">
+<img id="primary">
+</div>
 
 </body>
 </html>
