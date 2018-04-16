@@ -1,6 +1,7 @@
 import threading
 import numpy as np
 import cv2
+import base64
 
 class View:
     def __init__(self):
@@ -17,7 +18,7 @@ class View:
     def get_render(self):
         self.lock.acquire()
         if not self.rendered:
-            self.rendered = cv2.imencode('.png', self.image)[1].tostring()
+            self.rendered = base64.b64encode(cv2.imencode('.png', self.image)[1].tostring())
         out = self.rendered
         self.lock.release()
         return out

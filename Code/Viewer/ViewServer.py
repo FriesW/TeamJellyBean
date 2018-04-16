@@ -1,6 +1,7 @@
 from View import View
 import threading
 import _thread
+import urllib
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 class ViewServer:
@@ -36,6 +37,7 @@ class ViewServer:
             def _h(self, good = True):
                 if good:
                     self.send_response(200)
+                    self.send_header('Access-Control-Allow-Origin', '*')
                     self.send_header('Content-type', 'text/html')
                     self.end_headers()
                 else:
@@ -54,7 +56,7 @@ class ViewServer:
                 parent.lock.acquire()
                 keys = list(parent.views.keys())
                 parent.lock.release()
-                path = self.path[1:]
+                path = urllib.parse.unquote(self.path[1:])
                 #Listing
                 if path == '':
                     self._h()
