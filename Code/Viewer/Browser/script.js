@@ -56,12 +56,14 @@ function changeSource(e){
 function update(){
     if(source_target == '')
     {
-        setTimeout(update, 1000 / FRAMERATE);
+        if(gid('run').checked)
+            setTimeout(update, 1000 / FRAMERATE);
         return;
     }
     get(ROOT+source_target, function(resp){
         gid('primary').src = resp;
-        setTimeout(update, 1000 / FRAMERATE);
+        if(gid('run').checked)
+            setTimeout(update, 1000 / FRAMERATE);
     });
 }
 
@@ -71,5 +73,10 @@ window.onload = function(){
 get(ROOT,buildSelectors);
 
 update();
+
+gid('run').addEventListener('click', function(e){
+    if(e.srcElement.checked)
+        update();
+});
 
 }
