@@ -1,8 +1,11 @@
 https://pypi.org/project/Pillow/
 pip install Pillow
+import PIL
 
 https://pypi.org/project/opencv-python/
 pip install opencv-python
+import cv2
 
 https://pypi.org/project/numpy/
 pip install numpy
+import numpy
