@@ -9,3 +9,8 @@ import cv2
 https://pypi.org/project/numpy/
 pip install numpy
 import numpy
+
+https://github.com/dpallot/simple-websocket-server
+pip install git+https://github.com/dpallot/simple-websocket-server.git
+On windows might have to download and run: python setup.py install
+import SimpleWebSocketServer
