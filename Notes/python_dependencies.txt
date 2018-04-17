@@ -1,0 +1,8 @@
+https://pypi.org/project/Pillow/
+pip install Pillow
+
+https://pypi.org/project/opencv-python/
+pip install opencv-python
+
+https://pypi.org/project/numpy/
+pip install numpy
