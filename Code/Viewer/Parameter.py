@@ -23,6 +23,11 @@ class Parameter(BridgeElement, ABC):
         self.__await.set()
         self.__await.clear()
     
+    def await_remote(self, timeout = None):
+        rv = self.__await.wait(timeout)
+        self.__await.clear()
+        return rv
+    
     def set_editable(self, status):
         self.__editable = status
         self._notify_listener({'editable':self.is_editable()})
@@ -31,6 +36,3 @@ class Parameter(BridgeElement, ABC):
         return self.__editable
         #return True
     
-    def await_remote(self):
-        self.__await.wait()
-        self.__await.clear()
