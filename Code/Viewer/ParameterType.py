@@ -89,3 +89,16 @@ class Event(Parameter):
         except:
             input = self.get()
         return (True, input + 1)
+
+
+class Boolean(Parameter):
+    def __init__(self, name, listener, initial = False):
+        super(Boolean, self).__init__(name, listener, initial)
+    
+    def _get_input_type(self):
+        return 'checkbox';
+    
+    def _validator(self, input):
+        print("Recieved:", input)
+        input = bool(input)
+        return (True, input)

@@ -38,6 +38,9 @@ class ViewServer:
         
     def new_event(self, name, *args, **kwargs):
         return self.__nb(name, PT.Event, *args, **kwargs)
+    
+    def new_bool(self, name, *args, **kwargs):
+        return self.__nb(name, PT.Boolean, *args, **kwargs)
 
     def __send_message__(self, message):
         if self._client != None:

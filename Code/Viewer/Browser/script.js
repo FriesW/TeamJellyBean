@@ -84,9 +84,33 @@ function changeParameter(e) {
     var input = e.srcElement;
     var wrapper = input.parentElement;
     var send = {};
-    send[wrapper.getAttribute('id')] = {'input_value' : input.value};
+    send[wrapper.getAttribute('id')] = {'input_value' : getValue(input)};
     status_msg_out();
     ws.send(JSON.stringify(send));
+}
+
+function getValue(elem) {
+    if(elem.tagName != 'INPUT')
+        console.log('Trying to get value of a non-input tag!');
+    var type = elem.getAttribute('type');
+    if(type == null)
+        console.log('Type not found when getting value!');
+    if(type == 'checkbox')
+        return elem.checked;
+    return elem.value;
+}
+
+function setValue(elem, val) {
+    if(elem.tagName != 'INPUT')
+        console.log('Trying to set value of a non-input tag!');
+    var type = elem.getAttribute('type');
+    if(type == null)
+        console.log('Type not found when setting value!');
+    if(type == 'checkbox')
+        elem.checked = val;
+    else
+        elem.value = val;
+    
 }
 
 
@@ -187,10 +211,14 @@ ws.onmessage = function(e)
                     }
                 }
                 else if(attribute == 'input_value') {
-                    input.value = value;
+                    setValue(input, value);
                 }
                 else if(attribute == 'editable') {
                     input.readOnly = !value;
+                    if(value)
+                        input.removeAttribute('disabled');
+                    else
+                        input.setAttribute('disabled', 'disabled');
                 }
                 else {
                     console.log("No match attr:", attribute, 'No match value:', value);
