@@ -18,20 +18,20 @@ class ViewServer:
     def __run__(self):
         self.__server.serveforever()
     
-    def __nb(self, name, Type):
+    def __nb(self, name, Type, *args, **kwargs):
         name = str(name)
-        nb = Type(name, self.__send_message__)
+        nb = Type(name, self.__send_message__, *args, **kwargs)
         self._bridges[nb.get_id()] = nb
         return nb
     
-    def new_view(self, name):
-        return self.__nb(name, View)
+    def new_view(self, name, *args, **kwargs):
+        return self.__nb(name, View, *args, **kwargs)
     
-    def new_int(self, name):
-        return self.__nb(name, PT.Integer)
+    def new_int(self, name, *args, **kwargs):
+        return self.__nb(name, PT.Integer, *args, **kwargs)
     
-    def new_float(self, name):
-        return self.__nb(name, PT.Float)
+    def new_float(self, name, *args, **kwargs):
+        return self.__nb(name, PT.Float, *args, **kwargs)
 
     def __send_message__(self, message):
         if self._client != None:
