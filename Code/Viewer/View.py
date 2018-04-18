@@ -21,6 +21,9 @@ class View(BridgeElement):
     def announce(self):
         super(View, self).announce()
     
+    def _get_type(self):
+        return 'view';
+    
     def __reset(self, text = '! Reset View !'):
         image = np.zeros((72,455,3), np.uint8)
         cv2.putText(image, text, (5, 55), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)

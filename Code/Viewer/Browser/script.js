@@ -72,6 +72,12 @@ function setImage(img) {
 
 
 
+function changeParameter(e) {
+    console.log('parameter update:', e.srcElement);
+}
+
+
+
 window.onload = function(){
 
 ws = new WebSocket(PATH);
@@ -98,25 +104,37 @@ ws.onmessage = function(e)
         
         var elem = gid(obj_id);
         if(!elem) {
-            elem = document.createElement('span');
+            var elem = document.createElement('span');
             elem.setAttribute('id', obj_id);
             elem.classList.add('no-wrap');
             
-            var fragment = document.createElement('input');
-            fragment.setAttribute('id', obj_id + '_input');
-            fragment.setAttribute('name','source_select');
-            fragment.setAttribute('type','radio');
-            fragment.addEventListener('click', changeSource);
-            elem.appendChild(fragment);
+            var frag_input = document.createElement('input');
+            frag_input.setAttribute('id', obj_id + '_input');
+            var frag_label = document.createElement('label');
+            frag_label.setAttribute('for',obj_id + '_input');
             
-            var fragment = document.createElement('label');
-            fragment.setAttribute('for',obj_id + '_input');
-            elem.appendChild(fragment);
+            elem.appendChild(frag_input);
+            elem.appendChild(frag_label);
             
-            gid('selector').appendChild(elem);
+            if( values === 'view') {
+                frag_input.setAttribute('name','source_select');
+                frag_input.setAttribute('type','radio');
+                frag_input.addEventListener('click', changeSource);
+                
+                gid('selector').appendChild(elem);
+            }
+            else if( values === 'parameter') {
+                frag_input.addEventListener('change', changeParameter);
+                
+                gid('parameters').appendChild(elem);
+            }
+            else {
+                console.log('Message recieved for non-existant object!');
+                return;
+            }
         }
         
-        
+        else
         for(const [attribute, value] of Object.entries(values)) {
             if(attribute == 'name') {
                 elem.childNodes[1].innerHTML = escapeHTML(value);

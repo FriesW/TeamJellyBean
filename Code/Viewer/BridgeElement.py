@@ -14,10 +14,15 @@ class BridgeElement(ABC):
     
     @abstractmethod
     def announce(self):
+        self.__listener({self.get_id() : self._get_type()})
         self._notify_listener({
           'name':self.get_name(),
           'hidden':self.is_hidden()
         })
+    
+    @abstractmethod
+    def _get_type(self):
+        pass
     
     def get_id(self):
         return self.__id
