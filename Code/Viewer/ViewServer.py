@@ -1,5 +1,6 @@
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 from View import View
+from ParameterType import Integer
 import threading
 import _thread
 import json
@@ -17,11 +18,17 @@ class ViewServer:
     def __run__(self):
         self.__server.serveforever()
     
-    def new_view(self, name):
+    def __nb(self, name, Type):
         name = str(name)
-        nv = View(name, self.__send_message__)
-        self._bridges[nv.get_id()] = nv
-        return nv
+        nb = Type(name, self.__send_message__)
+        self._bridges[nb.get_id()] = nb
+        return nb
+    
+    def new_view(self, name):
+        return self.__nb(name, View)
+    
+    def new_int(self, name):
+        return self.__nb(name, Integer)
 
     def __send_message__(self, message):
         if self._client != None:
