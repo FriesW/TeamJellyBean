@@ -179,14 +179,3 @@ ws.onmessage = function(e)
 };
 
 }
-
-
-
-/*
-//change: enter, mouse leave arrow
-//input: every keystroke, every click
-//solution? mouseup + change
-gid('a').addEventListener('mouseup', function(e){
-    console.log(e.srcElement.value);
-});
-*/
