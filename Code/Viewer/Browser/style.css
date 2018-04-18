@@ -15,7 +15,8 @@ body
 
 .hidden
 {
-    background-color: purple;
+    display: none;
+    font-style: italic;
 }
 
 h1, h2, h3, h4

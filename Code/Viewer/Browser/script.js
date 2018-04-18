@@ -86,6 +86,14 @@ function changeParameter(e) {
 
 window.onload = function(){
 
+gid('show-hidden').addEventListener('change', function(){
+    var style = gid('js-style').sheet;
+    if(this.checked)
+        style.insertRule('.hidden {display:inline}');
+    else
+        style.deleteRule(0);
+});
+
 ws = new WebSocket(PATH);
 
 ws.onopen = function()
