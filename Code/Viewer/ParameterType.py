@@ -18,7 +18,7 @@ class Integer(Parameter):
         return 'number';
     
     def _validator(self, input):
-        input = int(input)
+        input = int(float(input))
         
         step_offset = 0
         if self.__min != None:

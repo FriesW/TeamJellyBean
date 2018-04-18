@@ -59,7 +59,7 @@ class Parameter(BridgeElement, ABC):
         except: pass
         if(accept):
             self.__val = new_val
-            self._notify_listener({ 'input_value' : new_val })
+        self._notify_listener({ 'input_value' : self.__val })
         return accept
     
     
