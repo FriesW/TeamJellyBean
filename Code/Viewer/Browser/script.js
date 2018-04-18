@@ -177,6 +177,9 @@ ws.onmessage = function(e)
                 else if(attribute == 'input_value') {
                     input.value = value;
                 }
+                else if(attribute == 'editable') {
+                    input.readOnly = !value;
+                }
                 else {
                     console.log("No match attr:", attribute, 'No match value:', value);
                 }

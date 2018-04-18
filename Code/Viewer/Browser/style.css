@@ -49,6 +49,11 @@ input[type="number"]
     margin-right: 0.25em;
 }
 
+input:read-only
+{
+    background-color: LightGrey;
+}
+
 label
 {
     margin-right: 1em;
