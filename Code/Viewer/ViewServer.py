@@ -1,6 +1,6 @@
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 from View import View
-from ParameterType import Integer
+import ParameterType as PT
 import threading
 import _thread
 import json
@@ -28,7 +28,10 @@ class ViewServer:
         return self.__nb(name, View)
     
     def new_int(self, name):
-        return self.__nb(name, Integer)
+        return self.__nb(name, PT.Integer)
+    
+    def new_float(self, name):
+        return self.__nb(name, PT.Float)
 
     def __send_message__(self, message):
         if self._client != None:

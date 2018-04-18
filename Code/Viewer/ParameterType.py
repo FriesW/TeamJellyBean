@@ -36,3 +36,21 @@ class Integer(Parameter):
             input = max(input, self.__min)
         
         return (True, input)
+
+
+class Float(Parameter):
+    def __init__(self, name, listener, initial = 0, min = None, max = None):
+        self.__min = min
+        self.__max = max
+        super(Float, self).__init__(name, listener, initial)
+        
+    def _get_input_type(self):
+        return 'number';
+    
+    def _validator(self, input):
+        input = float(input)
+        if self.__max != None:
+            input = min(input, self.__max)
+        if self.__min != None:
+            input = max(input, self.__min)
+        return (True, input)
