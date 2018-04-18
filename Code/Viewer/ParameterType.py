@@ -18,9 +18,9 @@ class Integer(Parameter):
         super(Integer, self).announce()
         self._notify_listener({'input_type':'number'})
         self._notify_listener({'input_value':self.__val})
-        #if min: self._notify_listener({'min':self.__min})
-        #if max: self._notify_listener({'max':self.__max})
-        #if step: self._notify_listener({'step':self.__step})
+        if self.__min: self._notify_listener({'min':self.__min})
+        if self.__max: self._notify_listener({'max':self.__max})
+        if self.__step: self._notify_listener({'step':self.__step})
     
     def notify(self, data):
         if 'value' in data:
