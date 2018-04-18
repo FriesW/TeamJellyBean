@@ -13,6 +13,11 @@ body
     border-radius: 1em;
 }
 
+.hidden
+{
+    background-color: purple;
+}
+
 h1, h2, h3, h4
 {
     display: inline-block;

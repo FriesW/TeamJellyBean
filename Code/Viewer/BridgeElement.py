@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 import uuid
-import json
 
 class BridgeElement(ABC):
     
@@ -26,18 +25,17 @@ class BridgeElement(ABC):
     def get_name(self):
         return self.__name
     
-    def notify(self, json_string):
-        self._on_notify( json.loads(json_string) )
-    
     @abstractmethod
-    def _on_notify(self, data):
+    def notify(self, data):
         pass
+        #self._on_notify( data )
+    
+    #@abstractmethod
+    #def _on_notify(self, data):
+    #    pass
     
     def _notify_listener(self, data):
-        self.__listener(
-          json.dumps(
-            {self.get_id() : data}
-        ))
+        self.__listener({self.get_id() : data})
     
     @abstractmethod
     def set_frozen(self, status):

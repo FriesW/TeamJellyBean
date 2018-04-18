@@ -2,6 +2,7 @@ from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 from View import View
 import threading
 import _thread
+import json
 import traceback
 
 class ViewServer:
@@ -24,7 +25,7 @@ class ViewServer:
 
     def __send_message__(self, message):
         if self._client != None:
-            self._client.sendMessage(message)
+            self._client.sendMessage(json.dumps(message))
     
     def __make_handler__(parent):
         class Handler(WebSocket):
@@ -34,7 +35,6 @@ class ViewServer:
                 if parent._client != None:
                         parent._client.close()
                 parent._client = self
-                self.sendMessage('testing')
                 for b in parent._bridges:
                     parent._bridges[b].announce()
                 
@@ -44,8 +44,9 @@ class ViewServer:
                 print("Disconnect")
             
             def handleMessage(self):
-                obj_id, data = self.data.split('\n', 1)
-                print("obj_id:", obj_id, '\t json data:', data)
-                parent._bridges[obj_id].notify(data)
+                data = json.loads(self.data)
+                for obj_id, values in data.items():
+                    if obj_id in parent._bridges:
+                        parent._bridges[obj_id].notify(values)
             
         return Handler

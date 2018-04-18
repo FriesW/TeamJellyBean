@@ -23,7 +23,7 @@ class View(BridgeElement):
     
     def __reset(self, text = '! Reset View !'):
         image = np.zeros((72,455,3), np.uint8)
-        cv2.putText(self.__image, text, (5, 55), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
+        cv2.putText(image, text, (5, 55), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3)
         self.update(image, 1.0)
     
     def reset(self):
@@ -35,17 +35,19 @@ class View(BridgeElement):
         self.__update_render = True
         self.__lock.release()
         if not self.is_frozen():
-            self._notify_listener({'event':'update'})
+            self._notify_listener({'image_event':'update'})
         
-    def _on_notify(self, data):
+    def notify(self, data):
         if 'request' in data:
-            self._notify_listener({
+            self._notify_listener({'image':{
               'encoding': self.__encoding,
               'data': self.__render()
-            })
+            }})
     
     def set_frozen(self, status):
         super(View, self).set_frozen(status)
+        if not status and self.__update_render:
+            self._notify_listener({'image_event':'update'})
             
     def __render(self):
         #render if not initialized, or if update ready and not frozen
