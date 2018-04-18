@@ -2,6 +2,8 @@ var PATH = 'ws://localhost:8000/';
 var ws;
 
 var active_source = null;
+var last_img_update = new Date().getTime();
+var MIN_AGE_DIFF = 50; //ms, 50 -> 20 fps
 
 function gid(id){
     return document.getElementById(id);
@@ -49,6 +51,11 @@ function changeSource(e) {
 }
 
 function fetchImage() {
+    if(new Date().getTime() - last_img_update < MIN_AGE_DIFF)
+        return;
+    last_img_update = new Date().getTime();
+    //clearTimeout(fetchImage.timeout);
+    //fetchImage.timeout = setTimeout(fetchImage, MIN_AGE_DIFF + 10);
     if(active_source) {
         var send = {};
         send[active_source] = {'request':''};

@@ -5,7 +5,7 @@ import cv2
 import base64
 
 class View(BridgeElement):
-    def __init__(self, name, listener, encoding = 'png', default_scale = 1.0, interpolation = cv2.INTER_LINEAR):
+    def __init__(self, name, listener, encoding = 'jpg', default_scale = 0.5, interpolation = cv2.INTER_LINEAR):
         super(View, self).__init__(name, listener)
         self.__encoding = encoding #'png', 'jpg'
         self.__scale = default_scale
