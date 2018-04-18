@@ -74,6 +74,12 @@ function setImage(img) {
 
 function changeParameter(e) {
     console.log('parameter update:', e.srcElement);
+    var input = e.srcElement;
+    var wrapper = input.parentElement;
+    var send = {};
+    send[wrapper.getAttribute('id')] = {'input_value' : input.value};
+    status_msg_out();
+    ws.send(JSON.stringify(send));
 }
 
 
@@ -134,26 +140,47 @@ ws.onmessage = function(e)
             }
         }
         
-        else
-        for(const [attribute, value] of Object.entries(values)) {
-            if(attribute == 'name') {
-                elem.childNodes[1].innerHTML = escapeHTML(value);
-            }
-            else if(attribute == 'hidden') {
-                if(value)
-                    elem.classList.add('hidden');
-                else
-                    elem.classList.remove('hidden');
-            }
-            else if(attribute == 'image_event' && value == 'update') {
-                if(active_source == obj_id)
-                    fetchImage();
-            }
-            else if(attribute == 'image') {
-                setImage(value);
-            }
-            else {
-                console.log("No match attr:", attribute, 'No match value:', value);
+        else {
+            
+            var wrapper = elem;
+            var input = elem.childNodes[0];
+            var label = elem.childNodes[1];
+            
+            for(const [attribute, value] of Object.entries(values)) {
+                if(attribute == 'name') {
+                    label.innerHTML = escapeHTML(value);
+                }
+                else if(attribute == 'hidden') {
+                    if(value)
+                        wrapper.classList.add('hidden');
+                    else
+                        wrapper.classList.remove('hidden');
+                }
+                else if(attribute == 'image_event' && value == 'update') {
+                    if(active_source == obj_id)
+                        fetchImage();
+                }
+                else if(attribute == 'image') {
+                    setImage(value);
+                }
+                else if(attribute == 'input_type') {
+                    input.setAttribute('type', value);
+                }
+                else if(attribute == 'input_value') {
+                    input.value = value;
+                }
+                else if(attribute == 'step') {
+                    
+                }
+                else if(attribute == 'min') {
+                    
+                }
+                else if(attribute == 'max') {
+                    
+                }
+                else {
+                    console.log("No match attr:", attribute, 'No match value:', value);
+                }
             }
         }
     }

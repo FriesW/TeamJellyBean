@@ -10,6 +10,7 @@ class Integer(Parameter):
     
     def set(self, nn):
         self.__val = nn
+        self._notify_listener({'input_value':self.__val})
     
     def get(self):
         return self.__val
@@ -23,9 +24,9 @@ class Integer(Parameter):
         if self.__step: self._notify_listener({'step':self.__step})
     
     def notify(self, data):
-        if 'value' in data:
-            self.__val = int(data['value'])
-            super(Integer, self).notify(None)
+        if 'input_value' in data:
+            self.__val = int(data['input_value'])
+        super(Integer, self).notify(None)
     
     def set_frozen(self, status):
         pass
