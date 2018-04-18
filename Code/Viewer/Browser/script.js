@@ -12,14 +12,7 @@ function escapeHTML(input_str) {
     return input_str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-/*function alive(){
-    if(typeof alive.counter === 'undefined')
-        alive.counter = 0;
-    gid('alive').style.backgroundColor = 'hsla('+alive.counter+', 90%, 60%, 1)';
-    alive.counter += 10;
-    alive.counter %= 360;
-    
-}*/
+
 
 function status_good(elem_id) {
     gid(elem_id).classList.add('good');
@@ -47,20 +40,7 @@ function status_img() {
       function(){status_reset('image_update');}, 75);
 }
 
-/*function get(path, callback){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if( this.readyState == 4 && this.status == 200 ){
-            alive();
-            gid('ntwrk').style.backgroundColor = 'green';
-            callback(this.responseText);
-        }
-    };
-    gid('ntwrk').style.backgroundColor = 'red';
-    xhttp.open('GET', path, true);
-    xhttp.send();
-    
-}*/
+
 
 function changeSource(e) {
     active_source = e.srcElement.parentElement.getAttribute('id');
@@ -83,19 +63,7 @@ function setImage(img) {
     elem.src = 'data:image/' + img.encoding + ';base64, ' + img.data;
 }
 
-/*function update(){
-    if(source_target == '')
-    {
-        if(gid('run').checked)
-            setTimeout(update, 1000 / FRAMERATE);
-        return;
-    }
-    get(ROOT+source_target, function(resp){
-        gid('primary').src = resp;
-        if(gid('run').checked)
-            setTimeout(update, 1000 / FRAMERATE);
-    });
-}*/
+
 
 window.onload = function(){
 
@@ -167,17 +135,11 @@ ws.onmessage = function(e)
     
 };
 
-//ws.close()?
+}
 
-/*get(ROOT,buildSelectors);
 
-update();
 
-gid('run').addEventListener('click', function(e){
-    if(e.srcElement.checked)
-        update();
-});
-
+/*
 //change: enter, mouse leave arrow
 //input: every keystroke, every click
 //solution? mouseup + change
@@ -185,4 +147,3 @@ gid('a').addEventListener('mouseup', function(e){
     console.log(e.srcElement.value);
 });
 */
-}
