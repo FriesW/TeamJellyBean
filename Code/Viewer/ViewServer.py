@@ -32,6 +32,9 @@ class ViewServer:
     
     def new_float(self, name, *args, **kwargs):
         return self.__nb(name, PT.Float, *args, **kwargs)
+    
+    def new_string(self, name, *args, **kwargs):
+        return self.__nb(name, PT.String, *args, **kwargs)
 
     def __send_message__(self, message):
         if self._client != None:

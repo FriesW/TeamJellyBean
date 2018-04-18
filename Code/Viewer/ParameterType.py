@@ -1,4 +1,5 @@
 from Parameter import Parameter
+import re
 
 class Integer(Parameter):
     def __init__(self, name, listener, initial = 0, min = None, max = None, step = 1):
@@ -54,3 +55,22 @@ class Float(Parameter):
         if self.__min != None:
             input = max(input, self.__min)
         return (True, input)
+
+
+class String(Parameter):
+    def __init__(self, name, listener, initial = '', pattern_remove = None, pattern_accept = None):
+        self.__remove = pattern_remove
+        self.__accept = pattern_accept
+        super(String, self).__init__(name, listener, initial)
+    
+    def _get_input_type(self):
+        return 'text';
+    
+    def _validator(self, input):
+        input = str(input)
+        if self.__remove:
+            input = re.sub(self.__remove, '', input)
+        status = True
+        if self.__accept:
+            status = bool( re.fullmatch(self.__accept, input) ) #or maybe re.search
+        return (status, input)
