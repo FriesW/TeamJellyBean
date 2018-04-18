@@ -23,12 +23,17 @@ h1, h2, h3, h4
     display: inline-block;
 }
 
-#alive, #ntwrk
+.status
 {
     height: 0.75em;
     width: 0.75em;
-    background-color: black;
+    background-color: red;
     display: inline-block;
+}
+
+.status.good
+{
+    background-color: green;
 }
 
 input

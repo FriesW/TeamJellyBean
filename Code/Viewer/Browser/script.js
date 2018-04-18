@@ -21,6 +21,32 @@ function escapeHTML(input_str) {
     
 }*/
 
+function status_good(elem_id) {
+    gid(elem_id).classList.add('good');
+}
+function status_reset(elem_id) {
+    gid(elem_id).classList.remove('good');
+}
+
+function status_msg_in() {
+    clearTimeout(status_msg_in.timeout);
+    status_good('msg_in');
+    status_msg_in.timeout = setTimeout(
+      function(){status_reset('msg_in');}, 75);
+}
+function status_msg_out() {
+    clearTimeout(status_msg_out.timeout);    
+    status_good('msg_out');
+    status_msg_out.timeout = setTimeout(
+      function(){status_reset('msg_out');}, 75);
+}
+function status_img() {
+    clearTimeout(status_img.timeout);    
+    status_good('image_update');
+    status_img.timeout = setTimeout(
+      function(){status_reset('image_update');}, 75);
+}
+
 /*function get(path, callback){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -46,12 +72,14 @@ function fetchImage() {
     if(active_source) {
         var send = {};
         send[active_source] = {'request':''};
+        status_msg_out();
         ws.send(JSON.stringify(send));
     }
 }
 
 function setImage(img) {
     var elem = gid('image-display');
+    status_img();
     elem.src = 'data:image/' + img.encoding + ';base64, ' + img.data;
 }
 
@@ -76,16 +104,19 @@ ws = new WebSocket(PATH);
 ws.onopen = function()
 {
     console.log("Connected.");
+    status_good('connected');
 };
 
 ws.onclose = function()
 {
     console.log("Closed.");
+    status_reset('connected');
 };
 
 ws.onmessage = function(e)
 {
-    console.log("Message in:", e.data);
+    //console.log("Message in:", e.data);
+    status_msg_in();
     data = JSON.parse(e.data);
     
     for(const [obj_id, values] of Object.entries(data)) {
