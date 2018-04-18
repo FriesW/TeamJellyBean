@@ -35,6 +35,9 @@ class ViewServer:
     
     def new_string(self, name, *args, **kwargs):
         return self.__nb(name, PT.String, *args, **kwargs)
+        
+    def new_event(self, name, *args, **kwargs):
+        return self.__nb(name, PT.Event, *args, **kwargs)
 
     def __send_message__(self, message):
         if self._client != None:

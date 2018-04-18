@@ -74,3 +74,18 @@ class String(Parameter):
         if self.__accept:
             status = bool( re.fullmatch(self.__accept, input) ) #or maybe re.search
         return (status, input)
+
+
+class Event(Parameter):
+    def __init__(self, name, listener):
+        super(Event, self).__init__(name, listener, 0)
+    
+    def _get_input_type(self):
+        return 'button';
+    
+    def _validator(self, input):
+        try:
+            input = int(input)
+        except:
+            input = self.get()
+        return (True, input + 1)

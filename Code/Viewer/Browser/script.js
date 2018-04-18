@@ -1,6 +1,13 @@
 var PATH = 'ws://localhost:8000/';
 var ws;
 
+var EVENT_LUT  = {
+    'number' : 'change',
+    'text' : 'change',
+    'checkbox' : 'change',
+    'button' : 'click',
+};
+
 var active_source = null;
 var last_img_update = new Date().getTime();
 var MIN_AGE_DIFF = 50; //ms, 50 -> 20 fps
@@ -138,8 +145,6 @@ ws.onmessage = function(e)
                 gid('selector').appendChild(elem);
             }
             else if( values === 'parameter') {
-                frag_input.addEventListener('change', changeParameter);
-                
                 gid('parameters').appendChild(elem);
             }
             else {
@@ -173,6 +178,13 @@ ws.onmessage = function(e)
                 }
                 else if(attribute == 'input_type') {
                     input.setAttribute('type', value);
+                    if(value in EVENT_LUT)
+                        //DANGER! If type is changed or called again, listeners will stack!
+                        input.addEventListener(EVENT_LUT[value], changeParameter);
+                    else {
+                        console.log('Unknown input_type of', value, '. Defaulting to \'click\'.');
+                        input.addEventListener('click', changeParameter);
+                    }
                 }
                 else if(attribute == 'input_value') {
                     input.value = value;
