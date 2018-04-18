@@ -169,15 +169,6 @@ ws.onmessage = function(e)
                 else if(attribute == 'input_value') {
                     input.value = value;
                 }
-                else if(attribute == 'step') {
-                    
-                }
-                else if(attribute == 'min') {
-                    
-                }
-                else if(attribute == 'max') {
-                    
-                }
                 else {
                     console.log("No match attr:", attribute, 'No match value:', value);
                 }
