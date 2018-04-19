@@ -183,6 +183,7 @@ ws.onmessage = function(e)
             var input = elem.childNodes[0];
             var label = elem.childNodes[1];
             
+            if(typeof values === 'object')
             for(const [attribute, value] of Object.entries(values)) {
                 if(attribute == 'name') {
                     label.innerHTML = escapeHTML(value);

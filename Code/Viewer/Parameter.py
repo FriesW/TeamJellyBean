@@ -29,7 +29,10 @@ class Parameter(BridgeElement, ABC):
     
     def notify(self, data):
         if 'input_value' in data:
-            self.set(data['input_value'])
+            if self.is_editable():
+                self.set(data['input_value'])
+            else:
+                self.announce()
         self.__await.set()
         self.__await.clear()
     
