@@ -148,21 +148,26 @@ class BeanSlicer:
         self.__canny.set_hidden(hidden)
         self.__morph = GS.new_view(name+': morphology')
         self.__morph.set_hidden(hidden)
+        self.__pass_1 = GS.new_view(name+': contour pass 1')
+        self.__pass_1.set_hidden(hidden)
         self.__res = GS.new_view(name+': result')
         self.__res.set_hidden(hidden)
         
         self.__blur = GS.new_int(name+': blur', initial=47, min=-1, max=100, step=2)
         self.__blur.set_hidden(hidden)
         self.__blur.set_editable(editable)
-        self.__morph_size = GS.new_int(name+': morph amount', initial=15, min=1, step=2)
-        self.__morph_size.set_hidden(hidden)
-        self.__morph_size.set_editable(editable)
         self.__canny_l = GS.new_int(name+': canny low', initial=0, min=0, max=255)
         self.__canny_l.set_hidden(editable)
         self.__canny_l.set_editable(hidden)
         self.__canny_h = GS.new_int(name+': canny high', initial=35, min=0, max=255)
         self.__canny_h.set_hidden(hidden)
         self.__canny_h.set_editable(editable)
+        self.__morph_size = GS.new_int(name+': morph amount', initial=15, min=1, step=2)
+        self.__morph_size.set_hidden(hidden)
+        self.__morph_size.set_editable(editable)
+        self.__pass_1_width = GS.new_int(name+': pass 1 width', initial=5, min=1)
+        self.__pass_1_width.set_hidden(hidden)
+        self.__pass_1_width.set_editable(editable)
     
     def slice(self, img):
         orig = img.copy()
@@ -177,8 +182,15 @@ class BeanSlicer:
         img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
         self.__morph.update(img)
         
+        #Pass 1
+        img, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        img.fill(0)
+        cv2.drawContours(img, contours, -1, (255, 255, 255), self.__pass_1_width.get())
+        self.__pass_1.update(img)
+        #Pass 2
         img, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
+        #Show
         cv2.drawContours(orig, contours, -1, (0, 255, 0), 3)
         for c in contours:
             m = cv2.moments(c)
