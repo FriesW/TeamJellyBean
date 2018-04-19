@@ -99,6 +99,5 @@ class Boolean(Parameter):
         return 'checkbox';
     
     def _validator(self, input):
-        print("Recieved:", input)
         input = bool(input)
         return (True, input)

@@ -4,7 +4,6 @@ import ParameterType as PT
 import threading
 import _thread
 import json
-import traceback
 
 class ViewServer:
     
