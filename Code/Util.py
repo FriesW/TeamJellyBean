@@ -108,6 +108,20 @@ class FindTray:
         if len(corners) != 4:
             return (False, None)
         
+        #Find minimal rotation
+        min_i = 0
+        min_d = 100000
+        for i in range(len(corners)):
+            p = corners[i]
+            d = ( p[0]**2 + p[1]**2 ) ** 0.5
+            if d < min_d:
+                min_i = i
+                min_d = d
+        #Rotate
+        offset = 3
+        slice = (min_i + offset) % len(corners)
+        corners = corners[slice:] + corners[:slice]
+        
         #Convert edge array
         corners = np.asarray(corners, np.float32)
         
