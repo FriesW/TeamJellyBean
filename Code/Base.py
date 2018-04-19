@@ -18,8 +18,8 @@ tray_finder = Util.FindTray('Tray', True)
 
 while True:
     
-    if not b_freerun.get():
-        e_cycle.await_remote()
+    while not b_freerun.get() and not e_cycle.await_remote(1):
+        pass
     
     rv = False
     while not rv:
