@@ -134,6 +134,7 @@ class FindTray:
         dest_size = np.array([ [0,0],[self.__out_w,0],[self.__out_w,self.__out_h],[0,self.__out_h] ],np.float32)
         transform = cv2.getPerspectiveTransform(corners, dest_size)
         img = cv2.warpPerspective(orig, transform, (self.__out_w,self.__out_h))
+        img = cv2.flip(img, 1)
         self.__v_warp.update(img)
         
         return (True, img)
