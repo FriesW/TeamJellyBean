@@ -15,6 +15,7 @@ b_freerun = GS.new_bool('Freerun')
 
 init_crop = Util.Crop('Initial', 150, 85, 1620, 910, True, False)
 tray_finder = Util.FindTray('Tray', True)
+bean_slicer = Util.BeanSlicer('Beans')
 
 while True:
     
@@ -27,5 +28,7 @@ while True:
 
     img = init_crop.crop(img)
     v_orig.update(img)
-    img = tray_finder.find(img)
+    success, img = tray_finder.find(img)
+    if success:
+        bean_slicer.slice(img)
     

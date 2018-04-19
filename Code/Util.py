@@ -138,4 +138,42 @@ class FindTray:
         self.__v_warp.update(img)
         
         return (True, img)
+
+
+
+class BeanSlicer:
+    def __init__(self, name):
+        self.__name = name
+        self.__canny = GS.new_view('canny')
+        self.__morph = GS.new_view('morphology')
+        self.__res = GS.new_view('result')
         
+        self.__blur = GS.new_int('blur', initial=47, min=-1, max=100, step=2)
+        self.__morph_size = GS.new_int('morph amount', initial=15, min=1, step=2)
+        self.__canny_l = GS.new_int('canny low', initial=0, min=0, max=255)
+        self.__canny_h = GS.new_int('canny high', initial=35, min=0, max=255)
+    
+    def slice(self, img):
+        orig = img.copy()
+        
+        if self.__blur.get() != -1:
+            img = cv2.GaussianBlur(img, (self.__blur.get(),self.__blur.get()), 0)
+        
+        img = cv2.Canny(img, self.__canny_l.get(), self.__canny_h.get())
+        self.__canny.update(img)
+        
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (self.__morph_size.get(),self.__morph_size.get()))
+        img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+        self.__morph.update(img)
+        
+        img, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        cv2.drawContours(orig, contours, -1, (0, 255, 0), 3)
+        for c in contours:
+            m = cv2.moments(c)
+            if m["m00"] != 0.0:
+                cX = int(m["m10"] / m["m00"])
+                cY = int(m["m01"] / m["m00"])
+                cv2.circle(orig, (cX, cY), 5, (255, 0, 255), -1)
+        
+        self.__res.update(orig)
