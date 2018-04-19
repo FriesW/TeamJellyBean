@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 import Viewer.GlobalServer as GS
 
 cam = cv2.VideoCapture(0)
@@ -12,6 +13,7 @@ v_grey = GS.new_view('Greyscale')
 v_thres = GS.new_view('Threshold')
 v_thres_morph = GS.new_view('Threshold morphology')
 v_contours = GS.new_view('Contours')
+v_warp = GS.new_view('Cutout tray')
 
 crop_x = GS.new_int('Crop X', min=0, initial=150)
 crop_x.set_hidden(True)
@@ -52,6 +54,8 @@ while True:
         cv2.getStructuringElement(cv2.MORPH_RECT, (11,11)))
     v_thres_morph.update(i_thres_morph)
     
+    tray_corners = []
+    
     discard, contours, hierarchy = \
         cv2.findContours(i_thres_morph, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     i_contours = i_crop.copy()
@@ -68,4 +72,12 @@ while True:
         cv2.drawContours(i_contours, [approx], -1, (255, 0, 0), 3)
         for n in approx:
             cv2.circle(i_contours, (n[0][0], n[0][1]), 8, (0, 0, 255), -1)
+            tray_corners.append([float(n[0][0]), float(n[0][1])])
     v_contours.update(i_contours)
+    
+    if len(tray_corners) == 4:
+        tray_corners = np.asarray(tray_corners, np.float32)
+        dest_size = np.array([ [0,0],[1449,0],[1449,1449],[0,1449] ],np.float32)
+        transform = cv2.getPerspectiveTransform(tray_corners, dest_size)
+        i_warp = cv2.warpPerspective(i_crop, transform, (1450,1450))
+        v_warp.update(i_warp)
