@@ -11,6 +11,7 @@ v_raw = GS.new_view('Cropped raw')
 v_grey = GS.new_view('Greyscale')
 v_thres = GS.new_view('Threshold')
 v_thres_morph = GS.new_view('Threshold morphology')
+v_contours = GS.new_view('Contours')
 
 crop_x = GS.new_int('Crop X', min=0, initial=150)
 crop_x.set_hidden(True)
@@ -26,6 +27,8 @@ crop_h.set_hidden(True)
 crop_h.set_editable(False)
 
 thres_lvl = GS.new_int('Threshold', min=0, max=255, initial=70)
+
+approx_contor_thres = GS.new_float('Contour approximation threshold', min=0, initial=10)
 
 while True:
     
@@ -48,3 +51,21 @@ while True:
     i_thres_morph = cv2.morphologyEx(i_thres, cv2.MORPH_CLOSE,
         cv2.getStructuringElement(cv2.MORPH_RECT, (11,11)))
     v_thres_morph.update(i_thres_morph)
+    
+    discard, contours, hierarchy = \
+        cv2.findContours(i_thres_morph, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    i_contours = i_crop.copy()
+    cv2.drawContours(i_contours, contours, -1, (0, 255, 0), 2)
+    if len(contours):
+        #Get largest contour
+        tray_contour = contours[0]
+        for c in contours[1:]:
+            if cv2.contourArea(tray_contour) < cv2.contourArea(c):
+                tray_contour = c
+        #Approximate it
+        approx = cv2.approxPolyDP(tray_contour, approx_contor_thres.get(), True)
+        #Draw it
+        cv2.drawContours(i_contours, [approx], -1, (255, 0, 0), 3)
+        for n in approx:
+            cv2.circle(i_contours, (n[0][0], n[0][1]), 8, (0, 0, 255), -1)
+    v_contours.update(i_contours)
