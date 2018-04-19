@@ -1,4 +1,4 @@
-from Parameter import Parameter
+from .Parameter import Parameter
 import re
 
 class Integer(Parameter):

@@ -1,4 +1,4 @@
-from BridgeElement import BridgeElement
+from .BridgeElement import BridgeElement
 import threading
 import numpy as np
 import cv2

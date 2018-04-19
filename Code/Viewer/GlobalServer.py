@@ -1,4 +1,4 @@
-from ViewServer import ViewServer
+from .ViewServer import ViewServer
 
 __server = ViewServer()
 

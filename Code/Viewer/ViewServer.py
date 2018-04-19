@@ -1,6 +1,6 @@
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
-from View import View
-import ParameterType as PT
+from .View import View
+from . import ParameterType as PT
 import threading
 import _thread
 import json

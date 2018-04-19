@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from BridgeElement import BridgeElement
+from .BridgeElement import BridgeElement
 import threading
 
 class Parameter(BridgeElement, ABC):
