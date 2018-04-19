@@ -142,16 +142,27 @@ class FindTray:
 
 
 class BeanSlicer:
-    def __init__(self, name):
+    def __init__(self, name='BeanSlicer', hidden=False, editable=True):
         self.__name = name
-        self.__canny = GS.new_view('canny')
-        self.__morph = GS.new_view('morphology')
-        self.__res = GS.new_view('result')
+        self.__canny = GS.new_view(name+': canny')
+        self.__canny.set_hidden(hidden)
+        self.__morph = GS.new_view(name+': morphology')
+        self.__morph.set_hidden(hidden)
+        self.__res = GS.new_view(name+': result')
+        self.__res.set_hidden(hidden)
         
-        self.__blur = GS.new_int('blur', initial=47, min=-1, max=100, step=2)
-        self.__morph_size = GS.new_int('morph amount', initial=15, min=1, step=2)
-        self.__canny_l = GS.new_int('canny low', initial=0, min=0, max=255)
-        self.__canny_h = GS.new_int('canny high', initial=35, min=0, max=255)
+        self.__blur = GS.new_int(name+': blur', initial=47, min=-1, max=100, step=2)
+        self.__blur.set_hidden(hidden)
+        self.__blur.set_editable(editable)
+        self.__morph_size = GS.new_int(name+': morph amount', initial=15, min=1, step=2)
+        self.__morph_size.set_hidden(hidden)
+        self.__morph_size.set_editable(editable)
+        self.__canny_l = GS.new_int(name+': canny low', initial=0, min=0, max=255)
+        self.__cann_l.set_hidden(editable)
+        self.__cann_l.set_editable(hidden)
+        self.__canny_h = GS.new_int(name+': canny high', initial=35, min=0, max=255)
+        self.__canny_h.set_hidden(hidden)
+        self.__canny_h.set_editable(editable)
     
     def slice(self, img):
         orig = img.copy()
