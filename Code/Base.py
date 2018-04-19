@@ -8,6 +8,9 @@ if not cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920):
 if not cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080):
     raise Exception('Camera error: can\'t set height.')
 
+e_cycle = GS.new_event('Single')
+b_freerun = GS.new_bool('Freerun')
+
 v_raw = GS.new_view('Cropped raw')
 v_grey = GS.new_view('Greyscale')
 v_thres = GS.new_view('Threshold')
@@ -33,6 +36,9 @@ thres_lvl = GS.new_int('Threshold', min=0, max=255, initial=70)
 approx_contor_thres = GS.new_float('Contour approximation threshold', min=0, initial=10)
 
 while True:
+    
+    if not b_freerun.get():
+        e_cycle.await_remote()
     
     rv = False
     while not rv:
