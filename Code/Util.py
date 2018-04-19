@@ -5,21 +5,21 @@ import Viewer.GlobalServer as GS
 
 
 class Crop:
-    def __init__(self, name, x=0, y=0, w=100, h=100, hidden=False, editable=True):
+    def __init__(self, name='Crop', x=0, y=0, w=100, h=100, hidden=False, editable=True):
         self.__name = name
-        self.__x = GS.new_int(name+' crop X', min=0, initial=x)
+        self.__x = GS.new_int(name+': crop X', min=0, initial=x)
         self.__x.set_hidden(hidden)
         self.__x.set_editable(editable)
-        self.__w = GS.new_int(name+' crop width', min=1, initial=w)
+        self.__w = GS.new_int(name+': crop width', min=1, initial=w)
         self.__w.set_hidden(hidden)
         self.__w.set_editable(editable)
-        self.__y = GS.new_int(name+' crop Y', min=0, initial=y)
+        self.__y = GS.new_int(name+': crop Y', min=0, initial=y)
         self.__y.set_hidden(hidden)
         self.__y.set_editable(editable)
-        self.__h = GS.new_int(name+' crop height', min=1, initial=h)
+        self.__h = GS.new_int(name+': crop height', min=1, initial=h)
         self.__h.set_hidden(hidden)
         self.__h.set_editable(editable)
-        self.__view = GS.new_view(name+' crop')
+        self.__view = GS.new_view(name+': crop')
         self.__view.set_hidden(hidden)
     
     def crop(self, img):
@@ -34,29 +34,29 @@ class Crop:
 
 
 class FindTray:
-    def __init__(self, name, hidden=False, editable=True):
+    def __init__(self, name='FindTray', hidden=False, editable=True):
         
         self.__hw_proportion = 5.33/6.62
         self.__out_w = int(1500)
         self.__out_h = int( self.__out_w * self.__hw_proportion )
         
-        self.__v_process = GS.new_view(name+': Pre-processed')
+        self.__v_process = GS.new_view(name+': pre-processed')
         self.__v_process.set_hidden(hidden)
-        self.__v_thres = GS.new_view(name+': Threshold')
+        self.__v_thres = GS.new_view(name+': threshold')
         self.__v_thres.set_hidden(hidden)
-        self.__v_morph = GS.new_view(name+': Threshold morphology')
+        self.__v_morph = GS.new_view(name+': threshold morphology')
         self.__v_morph.set_hidden(hidden)
-        self.__v_contours = GS.new_view(name+': Contours')
+        self.__v_contours = GS.new_view(name+': contours')
         self.__v_contours.set_hidden(hidden)
-        self.__v_warp = GS.new_view(name+': Cutout tray')
+        self.__v_warp = GS.new_view(name+': cutout tray')
         
-        self.__blur = GS.new_int(name+': Blur', min=-1, max=100, initial=-1, step=2)
+        self.__blur = GS.new_int(name+': blur', min=-1, max=100, initial=-1, step=2)
         self.__blur.set_hidden(hidden)
         self.__blur.set_editable(editable)
-        self.__t_lvl = GS.new_int(name+': Threshold', min=0, max=255, initial=70)
+        self.__t_lvl = GS.new_int(name+': threshold', min=0, max=255, initial=70)
         self.__t_lvl.set_hidden(hidden)
         self.__t_lvl.set_editable(editable)
-        self.__c_approx = GS.new_float(name+': Contour approximation level', min=0, initial=10)
+        self.__c_approx = GS.new_float(name+': contour approximation level', min=0, initial=10)
         self.__c_approx.set_hidden(hidden)
         self.__c_approx.set_editable(editable)
     
