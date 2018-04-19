@@ -35,6 +35,11 @@ class Crop:
 
 class FindTray:
     def __init__(self, name, hidden=False, editable=True):
+        
+        self.__hw_proportion = 5.33/6.62
+        self.__out_w = int(1500)
+        self.__out_h = int( self.__out_w * self.__hw_proportion )
+        
         self.__v_process = GS.new_view(name+': Pre-processed')
         self.__v_process.set_hidden(hidden)
         self.__v_thres = GS.new_view(name+': Threshold')
@@ -126,9 +131,9 @@ class FindTray:
         corners = np.asarray(corners, np.float32)
         
         #Make output
-        dest_size = np.array([ [0,0],[1449,0],[1449,1449],[0,1449] ],np.float32)
+        dest_size = np.array([ [0,0],[self.__out_w,0],[self.__out_w,self.__out_h],[0,self.__out_h] ],np.float32)
         transform = cv2.getPerspectiveTransform(corners, dest_size)
-        img = cv2.warpPerspective(orig, transform, (1450,1450))
+        img = cv2.warpPerspective(orig, transform, (self.__out_w,self.__out_h))
         self.__v_warp.update(img)
         
         return (True, img)
