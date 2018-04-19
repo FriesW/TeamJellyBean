@@ -36,14 +36,24 @@ class Crop:
 class FindTray:
     def __init__(self, name, hidden=False, editable=True):
         self.__v_process = GS.new_view(name+': Pre-processed')
+        self.__v_process.set_hidden(hidden)
         self.__v_thres = GS.new_view(name+': Threshold')
+        self.__v_thres.set_hidden(hidden)
         self.__v_morph = GS.new_view(name+': Threshold morphology')
+        self.__v_morph.set_hidden(hidden)
         self.__v_contours = GS.new_view(name+': Contours')
+        self.__v_contours.set_hidden(hidden)
         self.__v_warp = GS.new_view(name+': Cutout tray')
         
         self.__blur = GS.new_int(name+': Blur', min=-1, max=100, initial=-1, step=2)
+        self.__blur.set_hidden(hidden)
+        self.__blur.set_editable(editable)
         self.__t_lvl = GS.new_int(name+': Threshold', min=0, max=255, initial=70)
+        self.__t_lvl.set_hidden(hidden)
+        self.__t_lvl.set_editable(editable)
         self.__c_approx = GS.new_float(name+': Contour approximation level', min=0, initial=10)
+        self.__c_approx.set_hidden(hidden)
+        self.__c_approx.set_editable(editable)
     
     def find(self, img):
         orig = img.copy()

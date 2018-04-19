@@ -14,7 +14,7 @@ e_cycle = GS.new_event('Single')
 b_freerun = GS.new_bool('Freerun')
 
 init_crop = Util.Crop('Initial', 150, 85, 1620, 910, True, False)
-tray_finder = Util.FindTray('Tray')
+tray_finder = Util.FindTray('Tray', True)
 
 while True:
     
