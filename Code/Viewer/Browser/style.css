@@ -13,9 +13,14 @@ body
     border-radius: 1em;
 }
 
+.panel span
+{
+    display: inline-block;
+}
+
 .hidden
 {
-    display: none;
+    display: none !important;
     font-style: italic;
 }
 

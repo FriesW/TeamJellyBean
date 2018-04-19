@@ -120,7 +120,7 @@ window.onload = function(){
 gid('show-hidden').addEventListener('change', function(){
     var style = gid('js-style').sheet;
     if(this.checked)
-        style.insertRule('.hidden {display:inline}');
+        style.insertRule('.hidden {display:inline-block !important}');
     else
         style.deleteRule(0);
 });
