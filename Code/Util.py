@@ -6,6 +6,9 @@ import Viewer.GlobalServer as GS
 def p_dist(x1, y1, x2, y2):
     return ( (x1-x2)**2 + (y1-y2)**2 ) ** 0.5
 
+def crop(img, x, y, w, h):
+    return img[y:y+h, x:x+w]
+
 
 
 class Crop:
@@ -31,9 +34,9 @@ class Crop:
         y = self.__y.get()
         w = self.__w.get()
         h = self.__h.get()
-        crop = img[y:y+h, x:x+w]
-        self.__view.update(crop)
-        return crop
+        out = crop(img, x, y, w, h)
+        self.__view.update(out)
+        return out
 
 
 
@@ -157,6 +160,8 @@ class BeanSlicer:
         self.__pass_1.set_hidden(hidden)
         self.__pass_2 = GS.new_view(name+': pass two, contour')
         self.__pass_2.set_hidden(hidden)
+        self.__fin = GS.new_view(name+': discovered')
+        self.__fin.set_hidden(False)
         self.__res = GS.new_view(name+': result')
         self.__res.set_hidden(False)
         
@@ -181,6 +186,12 @@ class BeanSlicer:
         self.__cutoff_area = GS.new_float(name+': cutoff area', initial=450, min=0)
         self.__cutoff_area.set_hidden(hidden)
         self.__cutoff_area.set_editable(editable)
+        self.__bean_w = GS.new_int(name+': slice width', initial=140, min=0)
+        self.__bean_w.set_hidden(hidden)
+        self.__bean_w.set_editable(False)
+        self.__bean_h = GS.new_int(name+': slice height' ,initial=100, min=0)
+        self.__bean_h.set_hidden(hidden)
+        self.__bean_h.set_editable(False)
         
         #Dependent on input image size!
         self.__CENTERS = [(145,1101),(488,1098),(317,1099),(659,1097),(1001,1097),(829,1096),(1343,1094),(1173,1094),(230,979),(914,977),(573,978),(1086,975),(744,977),(401,978),(1255,974),(143,860),(486,858),(658,858),(313,858),(1171,856),(1000,856),(1341,855),(828,857),(571,739),(400,739),(228,739),(1084,736),(912,737),(742,738),(1254,735),(314,620),(143,621),(827,617),(998,615),(657,618),(1169,615),(485,618),(1339,614),(227,500),(740,498),(910,496),(570,498),(398,498),(1082,496),(1254,495),(315,381),(485,379),(142,380),(995,377),(825,378),(655,378),(1337,374),(1167,376),(226,261),(738,259),(399,260),(568,258),(1251,255),(1080,255),(909,256),(141,140),(311,140),(823,138),(653,138),(482,138),(1336,134),(1166,136),(994,136)]
@@ -249,8 +260,20 @@ class BeanSlicer:
         for ref in self.__CENTERS:
             cv2.circle(img, ref, 5, (75, 75, 75), -1)
         
-        self.__res.update(img)
+        self.__fin.update(img)
+        
+        img = orig.copy()
         
         #Get bean locations
         beans = self.__CENTERS[:]
         beans = [p for p in beans if p not in empty_spots]
+        
+        w = self.__bean_w.get()
+        h = self.__bean_h.get()
+        for b in beans:
+            x = b[0] - w//2
+            y = b[1] - h//2
+            #crop(img, x, y, w, h)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (50, 50, 50), 2)
+        
+        self.__res.update(img)
