@@ -215,7 +215,7 @@ class BeanSlicer:
             m = cv2.moments(contours[i])
             if m['m00'] == 0.0:
                 remove.append(i)
-        contours = np.delete(contours, remove)
+        contours = np.delete(contours, remove, 0)
         
         img = orig.copy()
         
