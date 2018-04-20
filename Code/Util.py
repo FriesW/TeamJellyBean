@@ -209,6 +209,14 @@ class BeanSlicer:
         cv2.drawContours(img, contours, -1, (255, 255, 255), 6)
         self.__pass_2.update(img)
         
+        #Discard bad contours (no center)
+        remove = []
+        for i in range(len(contours)):
+            m = cv2.moments(contours[i])
+            if m['m00'] == 0.0:
+                remove.append(i)
+        contours = np.delete(contours, remove)
+        
         img = orig.copy()
         
         #Draw calibration
@@ -220,23 +228,22 @@ class BeanSlicer:
         #Build
         for c in contours:
             m = cv2.moments(c)
-            if m["m00"] != 0.0:
-                cX = int(m["m10"] / m["m00"])
-                cY = int(m["m01"] / m["m00"])
-                color = (0, 0, 255)
-                #Test distances
-                d_cutoff = self.__cutoff_distance.get()
-                a_cutoff = self.__cutoff_area.get() * 10
-                for ref in self.__CENTERS:
-                    #Is on a center?
-                    if p_dist(cX, cY, ref[0], ref[1]) < d_cutoff:
-                        #Is it a dot?
-                        if cv2.contourArea(c) < a_cutoff:
-                            cv2.drawContours(img, [c], -1, (255, 0, 0), 3)
-                        else:
-                            cv2.drawContours(img, [c], -1, (255, 255, 255), 3)
+            cX = int(m["m10"] / m["m00"])
+            cY = int(m["m01"] / m["m00"])
+            color = (0, 0, 255)
+            #Test distances
+            d_cutoff = self.__cutoff_distance.get()
+            a_cutoff = self.__cutoff_area.get() * 10
+            for ref in self.__CENTERS:
+                #Is on a center?
+                if p_dist(cX, cY, ref[0], ref[1]) < d_cutoff:
+                    #Is it a dot?
+                    if cv2.contourArea(c) < a_cutoff:
+                        cv2.drawContours(img, [c], -1, (255, 0, 0), 3)
+                    else:
+                        cv2.drawContours(img, [c], -1, (255, 255, 255), 3)
                         
-                #Draw
-                cv2.circle(img, (cX, cY), 5, (0, 0, 255), -1)
+            #Draw
+            cv2.circle(img, (cX, cY), 5, (0, 0, 255), -1)
         
         self.__res.update(img)
