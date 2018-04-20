@@ -1,3 +1,5 @@
+#Old notes, probably broken
+
 import cv2
 
 def show(pic, name = 'showing...'):
