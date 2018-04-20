@@ -30,5 +30,6 @@ while True:
     v_orig.update(img)
     success, img = tray_finder.find(img)
     if success:
-        bean_slicer.slice(img)
+        for i in bean_slicer.slice(img):
+            Util.save('imgs', i[1])
     

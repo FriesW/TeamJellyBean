@@ -1,13 +1,28 @@
 import cv2
 import numpy as np
 import Viewer.GlobalServer as GS
-
+import os
+import re
 
 def p_dist(x1, y1, x2, y2):
     return ( (x1-x2)**2 + (y1-y2)**2 ) ** 0.5
 
 def crop(img, x, y, w, h):
     return img[y:y+h, x:x+w]
+
+def save(path, img):
+    files = []
+    for (dirpath, dirnames, filenames) in os.walk(path):
+        files.extend(filenames)
+        break
+    max_num = 0
+    for f in files:
+        s = re.findall('\d+\.png$', f)
+        if s:
+            max_num = max(max_num, int(s[0][:-4]))
+    path = os.path.join(path, str(max_num+1).zfill(5)+'.png' )
+    print('Saving image:', path)
+    cv2.imwrite(path, img)
 
 
 
@@ -263,6 +278,7 @@ class BeanSlicer:
         self.__fin.update(img)
         
         img = orig.copy()
+        cropped = [] #[((x,y), IMG), ...]
         
         #Get bean locations
         beans = self.__CENTERS[:]
@@ -273,7 +289,9 @@ class BeanSlicer:
         for b in beans:
             x = b[0] - w//2
             y = b[1] - h//2
-            #crop(img, x, y, w, h)
+            cropped.append( ((x,y),crop(orig, x, y, w, h)) )
             cv2.rectangle(img, (x, y), (x+w, y+h), (50, 50, 50), 2)
         
         self.__res.update(img)
+        
+        return cropped
