@@ -157,8 +157,6 @@ class BeanSlicer:
         self.__pass_1.set_hidden(hidden)
         self.__pass_2 = GS.new_view(name+': pass two, contour')
         self.__pass_2.set_hidden(hidden)
-        self.__pass_3 = GS.new_view(name+': pass three, circles')
-        self.__pass_3.set_hidden(hidden)
         self.__res = GS.new_view(name+': result')
         self.__res.set_hidden(hidden)
         
@@ -210,13 +208,6 @@ class BeanSlicer:
         img.fill(0)
         cv2.drawContours(img, contours, -1, (255, 255, 255), 6)
         self.__pass_2.update(img)
-        #Pass 3
-        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 200, 50, 30, 1, 50)
-        circles = np.uint16(np.around(circles))
-        img.fill(0)
-        for c in circles[0,:]:
-            cv2.circle(img, (c[0], c[1]), c[2], (255, 255, 255), 2)
-        self.__pass_3.update(img)
         
         img = orig.copy()
         
