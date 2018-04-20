@@ -3,6 +3,10 @@ import numpy as np
 import Viewer.GlobalServer as GS
 
 
+def p_dist(x1, y1, x2, y2):
+    return ( (x1-x2)**2 + (y1-y2)**2 ) ** 0.5
+
+
 
 class Crop:
     def __init__(self, name='Crop', x=0, y=0, w=100, h=100, hidden=False, editable=True):
@@ -119,7 +123,7 @@ class FindTray:
         min_d = 100000
         for i in range(len(corners)):
             p = corners[i]
-            d = ( p[0]**2 + p[1]**2 ) ** 0.5
+            d = p_dist(p[0], p[1], 0, 0)
             if d < min_d:
                 min_i = i
                 min_d = d
@@ -169,6 +173,12 @@ class BeanSlicer:
         self.__pass_1_width = GS.new_int(name+': pass one width', initial=18, min=1)
         self.__pass_1_width.set_hidden(hidden)
         self.__pass_1_width.set_editable(editable)
+        self.__cutoff_distance = GS.new_float(name+': center cutoff distance', initial=25, min=0)
+        self.__cutoff_distance.set_hidden(hidden)
+        self.__cutoff_distance.set_editable(editable)
+        self.__cutoff_area = GS.new_float(name+': cutoff area', initial=300, min=0)
+        self.__cutoff_area.set_hidden(hidden)
+        self.__cutoff_area.set_editable(editable)
         
         #Dependent on input image size!
         self.__CENTERS = [(145,1101),(488,1098),(317,1099),(659,1097),(1001,1097),(829,1096),(1343,1094),(1173,1094),(230,979),(914,977),(573,978),(1086,975),(744,977),(401,978),(1255,974),(143,860),(486,858),(658,858),(313,858),(1171,856),(1000,856),(1341,855),(828,857),(571,739),(400,739),(228,739),(1084,736),(912,737),(742,738),(1254,735),(314,620),(143,621),(827,617),(998,615),(657,618),(1169,615),(485,618),(1339,614),(227,500),(740,498),(910,496),(570,498),(398,498),(1082,496),(1254,495),(315,381),(485,379),(142,380),(995,377),(825,378),(655,378),(1337,374),(1167,376),(226,261),(738,259),(399,260),(568,258),(1251,255),(1080,255),(909,256),(141,140),(311,140),(823,138),(653,138),(482,138),(1336,134),(1166,136),(994,136)]
@@ -204,6 +214,20 @@ class BeanSlicer:
             if m["m00"] != 0.0:
                 cX = int(m["m10"] / m["m00"])
                 cY = int(m["m01"] / m["m00"])
-                cv2.circle(img, (cX, cY), 5, (255, 0, 255), -1)
+                color = (0, 0, 255)
+                #Test distances
+                d_cutoff = self.__cutoff_distance.get()
+                a_cutoff = self.__cutoff_area.get() * 10
+                for ref in self.__CENTERS:
+                    #Is on a center?
+                    if p_dist(cX, cY, ref[0], ref[1]) < d_cutoff:
+                        #Is it a dot?
+                        if cv2.contourArea(c) < a_cutoff:
+                            cv2.drawContours(img, [c], -1, (255, 0, 0), 3)
+                        else:
+                            cv2.drawContours(img, [c], -1, (255, 255, 255), 3)
+                        
+                #Draw
+                cv2.circle(img, (cX, cY), 5, (0, 0, 255), -1)
         
         self.__res.update(img)
