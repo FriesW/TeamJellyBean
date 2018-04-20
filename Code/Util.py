@@ -158,9 +158,9 @@ class BeanSlicer:
         self.__pass_2 = GS.new_view(name+': pass two, contour')
         self.__pass_2.set_hidden(hidden)
         self.__res = GS.new_view(name+': result')
-        self.__res.set_hidden(hidden)
+        self.__res.set_hidden(False)
         
-        self.__blur = GS.new_int(name+': blur', initial=39, min=-1, max=100, step=2)
+        self.__blur = GS.new_int(name+': blur', initial=45, min=-1, max=100, step=2)
         self.__blur.set_hidden(hidden)
         self.__blur.set_editable(editable)
         self.__canny_l = GS.new_int(name+': canny low', initial=0, min=0, max=255)
@@ -172,13 +172,13 @@ class BeanSlicer:
         self.__morph_size = GS.new_int(name+': morph amount', initial=15, min=1, step=2)
         self.__morph_size.set_hidden(hidden)
         self.__morph_size.set_editable(editable)
-        self.__pass_1_width = GS.new_int(name+': pass one width', initial=18, min=1)
+        self.__pass_1_width = GS.new_int(name+': pass one width', initial=40, min=1)
         self.__pass_1_width.set_hidden(hidden)
         self.__pass_1_width.set_editable(editable)
-        self.__cutoff_distance = GS.new_float(name+': center cutoff distance', initial=25, min=0)
+        self.__cutoff_distance = GS.new_float(name+': center cutoff distance', initial=15, min=0)
         self.__cutoff_distance.set_hidden(hidden)
         self.__cutoff_distance.set_editable(editable)
-        self.__cutoff_area = GS.new_float(name+': cutoff area', initial=300, min=0)
+        self.__cutoff_area = GS.new_float(name+': cutoff area', initial=450, min=0)
         self.__cutoff_area.set_hidden(hidden)
         self.__cutoff_area.set_editable(editable)
         
@@ -218,12 +218,9 @@ class BeanSlicer:
         contours = np.delete(contours, remove, 0)
         
         img = orig.copy()
+        empty_spots = []
         
-        #Draw calibration
-        for ref in self.__CENTERS:
-            cv2.circle(img, ref, 5, (75, 75, 75), -1)
-        
-        #Show
+        #Show all contours
         cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
         #Build
         for c in contours:
@@ -239,11 +236,21 @@ class BeanSlicer:
                 if p_dist(cX, cY, ref[0], ref[1]) < d_cutoff:
                     #Is it a dot?
                     if cv2.contourArea(c) < a_cutoff:
-                        cv2.drawContours(img, [c], -1, (255, 0, 0), 3)
+                        #cv2.drawContours(img, [c], -1, (255, 0, 0), 3)
+                        cv2.fillPoly(img, [c], (255,0,0))
+                        empty_spots.append(ref)
                     else:
                         cv2.drawContours(img, [c], -1, (255, 255, 255), 3)
                         
             #Draw
             cv2.circle(img, (cX, cY), 5, (0, 0, 255), -1)
         
+        #Draw calibration
+        for ref in self.__CENTERS:
+            cv2.circle(img, ref, 5, (75, 75, 75), -1)
+        
         self.__res.update(img)
+        
+        #Get bean locations
+        beans = self.__CENTERS[:]
+        beans = [p for p in beans if p not in empty_spots]
