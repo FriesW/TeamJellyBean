@@ -153,8 +153,12 @@ class BeanSlicer:
         self.__canny.set_hidden(hidden)
         self.__morph = GS.new_view(name+': morphology')
         self.__morph.set_hidden(hidden)
-        self.__pass_1 = GS.new_view(name+': contour pass one')
+        self.__pass_1 = GS.new_view(name+': pass one, contour')
         self.__pass_1.set_hidden(hidden)
+        self.__pass_2 = GS.new_view(name+': pass two, contour')
+        self.__pass_2.set_hidden(hidden)
+        self.__pass_3 = GS.new_view(name+': pass three, circles')
+        self.__pass_3.set_hidden(hidden)
         self.__res = GS.new_view(name+': result')
         self.__res.set_hidden(hidden)
         
@@ -203,8 +207,22 @@ class BeanSlicer:
         self.__pass_1.update(img)
         #Pass 2
         img, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        img.fill(0)
+        cv2.drawContours(img, contours, -1, (255, 255, 255), 6)
+        self.__pass_2.update(img)
+        #Pass 3
+        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 200, 50, 30, 1, 50)
+        circles = np.uint16(np.around(circles))
+        img.fill(0)
+        for c in circles[0,:]:
+            cv2.circle(img, (c[0], c[1]), c[2], (255, 255, 255), 2)
+        self.__pass_3.update(img)
         
         img = orig.copy()
+        
+        #Draw calibration
+        for ref in self.__CENTERS:
+            cv2.circle(img, ref, 5, (75, 75, 75), -1)
         
         #Show
         cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
