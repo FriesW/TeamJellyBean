@@ -199,12 +199,12 @@ class BeanSlicer:
         self.__morph.update(img)
         
         #Pass 1
-        img, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        img, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         img.fill(0)
         cv2.drawContours(img, contours, -1, (255, 255, 255), self.__pass_1_width.get())
         self.__pass_1.update(img)
         #Pass 2
-        img, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        img, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         img.fill(0)
         cv2.drawContours(img, contours, -1, (255, 255, 255), 6)
         self.__pass_2.update(img)
