@@ -238,7 +238,7 @@ class BeanSlicer:
         self.__pass_1_width = GS.new_int(name+': pass one width', initial=40, min=1)
         self.__pass_1_width.set_hidden(hidden)
         self.__pass_1_width.set_editable(editable)
-        self.__cutoff_distance = GS.new_float(name+': center cutoff distance', initial=15, min=0)
+        self.__cutoff_distance = GS.new_float(name+': center cutoff distance', initial=20, min=0)
         self.__cutoff_distance.set_hidden(hidden)
         self.__cutoff_distance.set_editable(editable)
         self.__cutoff_area = GS.new_float(name+': cutoff area', initial=450, min=0)
