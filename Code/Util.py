@@ -12,6 +12,8 @@ def crop(img, x, y, w, h):
     return img[y:y+h, x:x+w]
 
 def save(path, img):
+    if not os.path.exists(path):
+        os.makedirs(path)
     files = []
     for (dirpath, dirnames, filenames) in os.walk(path):
         files.extend(filenames)

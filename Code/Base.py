@@ -43,5 +43,5 @@ while True:
         sliced = bean_slicer.slice(img)
         if save_btn.get():
             for i in sliced:
-                Util.save(path.join('save',save_loc.get()), i[1])
+                Util.save(path.join('img_save',save_loc.get()), i[1])
     
