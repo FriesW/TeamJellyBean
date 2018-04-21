@@ -29,7 +29,7 @@ def save(path, img):
 
 class Timer:
     def __init__(self, name='Timer', hidden=False):
-        self.__l = GS.new_string('ms '+name)
+        self.__l = GS.new_int('ms '+name)
         self.__l.set_hidden(hidden)
         self.__l.set_editable(False)
         self.__lt = time.time()
