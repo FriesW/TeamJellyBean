@@ -41,6 +41,34 @@ class Timer:
 
 
 
+class Exposure:
+    def __init__(self, name='Exposure', hidden=False):
+        self.__t = GS.new_int(name+' Lum')
+        self.__t.set_hidden(hidden)
+        self.__t.set_editable(False)
+        self.__r = GS.new_int(name+' R')
+        self.__r.set_hidden(hidden)
+        self.__r.set_editable(False)
+        self.__g = GS.new_int(name+' G')
+        self.__g.set_hidden(hidden)
+        self.__g.set_editable(False)
+        self.__b = GS.new_int(name+' B')
+        self.__b.set_hidden(hidden)
+        self.__b.set_editable(False)
+    
+    def measure(self, img):
+        self.__t.set( np.average(img) )
+        
+        #row_avg = np.average(img, 1)
+        #rgb_avg = np.average(row_avg, 0)
+        #avg = list(rgb_avg)
+        avg = np.mean(img, axis=(0,1))
+        self.__b.set(avg[0])
+        self.__g.set(avg[1])
+        self.__r.set(avg[2])
+
+
+
 class Crop:
     def __init__(self, name='Crop', x=0, y=0, w=100, h=100, hidden=False, editable=True):
         self.__name = name

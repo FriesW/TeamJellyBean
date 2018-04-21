@@ -14,6 +14,8 @@ e_cycle = GS.new_event('Single')
 b_freerun = GS.new_bool('Freerun')
 
 rate = Util.Timer(' per frame')
+expo_1 = Util.Exposure('Exposure general', hidden=True)
+expo_2 = Util.Exposure('Exposure tray')
 init_crop = Util.Crop('Initial', 150, 85, 1620, 910, True, False)
 tray_finder = Util.FindTray('Tray', True)
 bean_slicer = Util.BeanSlicer('Beans', True)
@@ -29,12 +31,12 @@ while True:
     rv = False
     while not rv:
         rv, img = cam.read()
-
+    expo_1.measure(img)
     img = init_crop.crop(img)
     v_orig.update(img)
     success, img = tray_finder.find(img)
     if success:
-        for i in bean_slicer.slice(img):
-    #        Util.save('imgs', i[1])
-            pass
+        expo_2.measure(img)
+        #for i in bean_slicer.slice(img):
+            #Util.save('imgs', i[1])
     
