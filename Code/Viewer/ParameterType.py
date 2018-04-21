@@ -87,8 +87,23 @@ class Event(Parameter):
         try:
             input = int(input)
         except:
-            input = self.get()
-        return (True, input + 1)
+            input = self.peek()
+        return (True, input)
+    
+    def peek(self):
+        return super(Event, self).get()
+    
+    def _remote_get(self):
+        return self.peek()
+    
+    def get(self):
+        val = self.peek()
+        self.set(max(val - 1, 0))
+        return val
+    
+    def _remote_set(self, val):
+        self.set( self.peek() + 1 )
+        
 
 
 class Boolean(Parameter):
