@@ -19,8 +19,8 @@ bean_slicer = Util.BeanSlicer('Beans')
 
 while True:
     
-    while not b_freerun.get() and not e_cycle.await_remote(1):
-        pass
+    while not b_freerun.get() and not e_cycle.get():
+        e_cycle.await_remote(0.2)
     
     rv = False
     while not rv:
@@ -29,7 +29,7 @@ while True:
     img = init_crop.crop(img)
     v_orig.update(img)
     success, img = tray_finder.find(img)
-    if success:
-        for i in bean_slicer.slice(img):
-            Util.save('imgs', i[1])
+    #if success:
+    #    for i in bean_slicer.slice(img):
+    #        Util.save('imgs', i[1])
     
