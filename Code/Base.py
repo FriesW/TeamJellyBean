@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import Viewer.GlobalServer as GS
 import Util
+from os import path
 
 cam = cv2.VideoCapture(0)
 if not cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920):
@@ -12,6 +13,8 @@ if not cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080):
 v_orig = GS.new_view('Image')
 e_cycle = GS.new_event('Single')
 b_freerun = GS.new_bool('Freerun')
+save_loc = GS.new_string('Bean name', pattern_remove='[^a-zA-Z0-9\-\_ \']')
+save_btn = GS.new_event('Save imgs')
 
 rate = Util.Timer(' per frame')
 expo_1 = Util.Exposure('Exposure general', hidden=True)
@@ -37,6 +40,8 @@ while True:
     success, img = tray_finder.find(img)
     if success:
         expo_2.measure(img)
-        #for i in bean_slicer.slice(img):
-            #Util.save('imgs', i[1])
+        sliced = bean_slicer.slice(img)
+        if save_btn.get():
+            for i in sliced:
+                Util.save(path.join('save',save_loc.get()), i[1])
     
