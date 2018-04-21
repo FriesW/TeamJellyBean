@@ -59,8 +59,8 @@ class Parameter(BridgeElement, ABC):
     def get(self):
         return self.__val
         
-    def _remote_set(self, val):
-        self.set(val)
+    def _remote_set(self, new_val):
+        return self.set(new_val)
     
     def set(self, new_val):
         accept = False
