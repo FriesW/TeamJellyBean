@@ -16,7 +16,7 @@ class Parameter(BridgeElement, ABC):
         super(Parameter, self).announce()
         self._notify_listener({
           'input_type' : self._get_input_type(),
-          'input_value' : self.get(),
+          'input_value' : self._remote_get(),
           'editable' : self.is_editable()
         })
     
@@ -30,7 +30,7 @@ class Parameter(BridgeElement, ABC):
     def notify(self, data):
         if 'input_value' in data:
             if self.is_editable():
-                self.set(data['input_value'])
+                self._remote_set(data['input_value'])
             else:
                 self.announce()
         self.__await.set()
@@ -52,9 +52,15 @@ class Parameter(BridgeElement, ABC):
     @abstractmethod
     def _validator(self, input):
         return (False, None)
-        
+    
+    def _remote_get(self):
+        return self.get()
+    
     def get(self):
         return self.__val
+        
+    def _remote_set(self, val):
+        self.set(val)
     
     def set(self, new_val):
         accept = False
@@ -62,7 +68,7 @@ class Parameter(BridgeElement, ABC):
         except: pass
         if(accept):
             self.__val = new_val
-        self._notify_listener({ 'input_value' : self.__val })
+        self._notify_listener({ 'input_value' : self._remote_get() })
         return accept
     
     
