@@ -13,12 +13,14 @@ v_orig = GS.new_view('Image')
 e_cycle = GS.new_event('Single')
 b_freerun = GS.new_bool('Freerun')
 
+rate = Util.Timer(' per frame')
 init_crop = Util.Crop('Initial', 150, 85, 1620, 910, True, False)
 tray_finder = Util.FindTray('Tray', True)
 bean_slicer = Util.BeanSlicer('Beans', True)
 
 while True:
     
+    rate.cycle()
     while not b_freerun.get() and not e_cycle.get():
         e_cycle.await_remote(0.2)
     if b_freerun.get():

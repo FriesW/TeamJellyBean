@@ -3,6 +3,7 @@ import numpy as np
 import Viewer.GlobalServer as GS
 import os
 import re
+import time
 
 def p_dist(x1, y1, x2, y2):
     return ( (x1-x2)**2 + (y1-y2)**2 ) ** 0.5
@@ -23,6 +24,20 @@ def save(path, img):
     path = os.path.join(path, str(max_num+1).zfill(5)+'.png' )
     print('Saving image:', path)
     cv2.imwrite(path, img)
+
+
+
+class Timer:
+    def __init__(self, name='Timer', hidden=False):
+        self.__l = GS.new_string('ms '+name)
+        self.__l.set_hidden(hidden)
+        self.__l.set_editable(False)
+        self.__lt = time.time()
+    
+    def cycle(self):
+        tt = time.time()
+        self.__l.set(int( (tt - self.__lt) * 1000 ))
+        self.__lt = tt
 
 
 
