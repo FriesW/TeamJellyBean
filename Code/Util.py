@@ -201,10 +201,10 @@ class BeanSlicer:
         self.__cutoff_area = GS.new_float(name+': cutoff area', initial=450, min=0)
         self.__cutoff_area.set_hidden(hidden)
         self.__cutoff_area.set_editable(editable)
-        self.__bean_w = GS.new_int(name+': slice width', initial=140, min=0)
+        self.__bean_w = GS.new_int(name+': slice width', initial=150, min=0)
         self.__bean_w.set_hidden(hidden)
         self.__bean_w.set_editable(False)
-        self.__bean_h = GS.new_int(name+': slice height' ,initial=100, min=0)
+        self.__bean_h = GS.new_int(name+': slice height' ,initial=110, min=0)
         self.__bean_h.set_hidden(hidden)
         self.__bean_h.set_editable(False)
         
