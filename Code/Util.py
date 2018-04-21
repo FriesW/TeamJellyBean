@@ -256,7 +256,10 @@ class BeanSlicer:
         #Dependent on input image size!
         self.__CENTERS = [(145,1101),(488,1098),(317,1099),(659,1097),(1001,1097),(829,1096),(1343,1094),(1173,1094),(230,979),(914,977),(573,978),(1086,975),(744,977),(401,978),(1255,974),(143,860),(486,858),(658,858),(313,858),(1171,856),(1000,856),(1341,855),(828,857),(571,739),(400,739),(228,739),(1084,736),(912,737),(742,738),(1254,735),(314,620),(143,621),(827,617),(998,615),(657,618),(1169,615),(485,618),(1339,614),(227,500),(740,498),(910,496),(570,498),(398,498),(1082,496),(1254,495),(315,381),(485,379),(142,380),(995,377),(825,378),(655,378),(1337,374),(1167,376),(226,261),(738,259),(399,260),(568,258),(1251,255),(1080,255),(909,256),(141,140),(311,140),(823,138),(653,138),(482,138),(1336,134),(1166,136),(994,136)]
     
-    def slice(self, img):
+    def calibrate(self, img):
+        self.slice(img, True)
+    
+    def slice(self, img, calibrate = False):
         orig = img.copy()
         
         if self.__blur.get() != -1:
@@ -290,6 +293,7 @@ class BeanSlicer:
         
         img = orig.copy()
         empty_spots = []
+        calibrate_centers = []
         
         #Show all contours
         cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
@@ -310,6 +314,7 @@ class BeanSlicer:
                         #cv2.drawContours(img, [c], -1, (255, 0, 0), 3)
                         cv2.fillPoly(img, [c], (255,0,0))
                         empty_spots.append(ref)
+                        calibrate_centers.append((cX, cY))
                     else:
                         cv2.drawContours(img, [c], -1, (255, 255, 255), 3)
                         
@@ -321,6 +326,9 @@ class BeanSlicer:
             cv2.circle(img, ref, 5, (75, 75, 75), -1)
         
         self.__fin.update(img)
+        
+        if calibrate:
+            self.__CENTERS = calibrate_centers
         
         img = orig.copy()
         cropped = [] #[((x,y), IMG), ...]

@@ -23,6 +23,9 @@ init_crop = Util.Crop('Initial', 150, 85, 1620, 910, True, False)
 tray_finder = Util.FindTray('Tray', True)
 bean_slicer = Util.BeanSlicer('Beans', True)
 
+calibrate_btn = GS.new_event('Calibrate bean slicer')
+calibrate_btn.set_hidden(True)
+
 while True:
     
     rate.cycle()
@@ -40,8 +43,11 @@ while True:
     success, img = tray_finder.find(img)
     if success:
         expo_2.measure(img)
-        sliced = bean_slicer.slice(img)
-        if save_btn.get():
-            for i in sliced:
-                Util.save(path.join('img_save',save_loc.get()), i[1])
+        if calibrate_btn.get():
+            bean_slicer.calibrate(img)
+        else:
+            sliced = bean_slicer.slice(img)
+            if save_btn.get():
+                for i in sliced:
+                    Util.save(path.join('img_save',save_loc.get()), i[1])
     
