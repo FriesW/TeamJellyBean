@@ -16,7 +16,7 @@ class Integer(Parameter):
         super(Integer, self).__init__(name, listener, initial)
     
     def _get_input_type(self):
-        return 'number';
+        return 'number'
     
     def _validator(self, input):
         input = int(float(input))
@@ -46,7 +46,7 @@ class Float(Parameter):
         super(Float, self).__init__(name, listener, initial)
         
     def _get_input_type(self):
-        return 'number';
+        return 'number'
     
     def _validator(self, input):
         input = float(input)
@@ -64,7 +64,7 @@ class String(Parameter):
         super(String, self).__init__(name, listener, initial)
     
     def _get_input_type(self):
-        return 'text';
+        return 'text'
     
     def _validator(self, input):
         input = str(input)
@@ -81,7 +81,7 @@ class Event(Parameter):
         super(Event, self).__init__(name, listener, 0)
     
     def _get_input_type(self):
-        return 'button';
+        return 'button'
     
     def _validator(self, input):
         try:
@@ -96,7 +96,7 @@ class Boolean(Parameter):
         super(Boolean, self).__init__(name, listener, initial)
     
     def _get_input_type(self):
-        return 'checkbox';
+        return 'checkbox'
     
     def _validator(self, input):
         input = bool(input)
