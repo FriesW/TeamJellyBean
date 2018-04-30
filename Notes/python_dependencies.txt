@@ -14,3 +14,7 @@ https://github.com/dpallot/simple-websocket-server
 pip install git+https://github.com/dpallot/simple-websocket-server.git
 On windows might have to download and run: python setup.py install
 import SimpleWebSocketServer
+
+https://pypi.org/project/tensorflow/
+pip install tensorflow
+import tensorflow

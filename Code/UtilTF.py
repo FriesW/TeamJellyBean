@@ -1,0 +1,60 @@
+import numpy as np
+import tensorflow as tf
+
+class Classifier:
+    def __init__(self):
+        self.__graph = self.__load_graph('../trained_model/retrained_graph.pb')
+        self.__labels = self.__load_labels('../trained_model/retrained_labels.txt')
+        #with tf.gfile.FastGFile('../trained_model/retrained_graph.pb') as f:
+        #    graph_def = tf.GraphDef()
+        #    graph_def.ParseFromString(f.read())
+        #    _ = tf.import_graph_def(graph_def, name='')
+
+    def __load_graph(self, model_file):
+        graph = tf.Graph()
+        graph_def = tf.GraphDef()
+        
+        with open(model_file, "rb") as f:
+            graph_def.ParseFromString(f.read())
+        with graph.as_default():
+            tf.import_graph_def(graph_def)
+        
+        return graph
+    
+    def __load_labels(self, label_file):
+        label = []
+        proto_as_ascii_lines = tf.gfile.GFile(label_file).readlines()
+        for l in proto_as_ascii_lines:
+            label.append(l.rstrip())
+        return label
+            
+    def classify(self, np_img):
+        o = 'unknown'
+    
+        float_caster = tf.cast(np_img, tf.float32)
+        dims_expander = tf.expand_dims(float_caster, 0)
+        resized = tf.image.resize_bilinear(dims_expander, [299, 299])
+        normalized = tf.divide(tf.subtract(resized, [0]), [255])
+        sess = tf.Session()
+        img_res = sess.run(normalized)
+        
+        input_operation = self.__graph.get_operation_by_name('import/Mul')
+        output_operation = self.__graph.get_operation_by_name('import/final_result')
+        
+        with tf.Session(graph = self.__graph) as sess:
+            results = sess.run(output_operation.outputs[0], {
+                input_operation.outputs[0]: img_res
+            })
+            
+            results = np.squeeze(results)
+
+            top_k = results.argsort()[-5:][::-1]
+            for i in top_k:
+                print(self.__labels[i], results[i])
+            
+            i = top_k[0]
+            o = self.__labels[i] + '(' + str(results[i]) + ')'
+        
+        return o
+           
+                #print('%s (score = %.5f' % (readable, score))
