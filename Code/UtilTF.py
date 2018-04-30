@@ -48,11 +48,12 @@ class Classifier:
             results = np.squeeze(results)
 
             top_k = results.argsort()[-5:][::-1]
+            print("Considering:")
             for i in top_k:
                 print(self.__labels[i], results[i])
             
             i = top_k[0]
-            o = self.__labels[i] + '(' + str(results[i]) + ')'
+            o = self.__labels[i] + '(' + str(int(results[i]*100)) + '%)'
         
         return o
            
