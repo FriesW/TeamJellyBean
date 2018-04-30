@@ -52,7 +52,7 @@ while True:
                 label = classify.classify(i[1])
                 p = list(i[0])
                 p[1] += 30
-                cv2.putText(img, label, tuple(p), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2, cv2.LINE_AA)
+                cv2.putText(img, label, tuple(p), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
             v_out.update(img)
                 
     

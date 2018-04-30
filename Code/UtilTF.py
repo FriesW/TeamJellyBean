@@ -35,6 +35,7 @@ class Classifier:
         #https://stackoverflow.com/questions/40273109/convert-python-opencv-mat-image-to-tensorflow-image-data
         img = cv2.resize(np_img, dsize=(299,299), interpolation = cv2.INTER_CUBIC)
         img = np.asarray(img)
+        #img = cv2.normalize(img.astype('float'), None, -0.5, .5, cv2.NORM_MINMAX)
         img_res = np.expand_dims(img, axis=0)
         
         input_operation = self.__graph.get_operation_by_name('import/Mul')
