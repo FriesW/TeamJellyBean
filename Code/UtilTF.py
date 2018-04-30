@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+import cv2
 
 class Classifier:
     def __init__(self):
@@ -30,13 +31,11 @@ class Classifier:
             
     def classify(self, np_img):
         o = 'unknown'
-    
-        float_caster = tf.cast(np_img, tf.float32)
-        dims_expander = tf.expand_dims(float_caster, 0)
-        resized = tf.image.resize_bilinear(dims_expander, [299, 299])
-        normalized = tf.divide(tf.subtract(resized, [0]), [255])
-        sess = tf.Session()
-        img_res = sess.run(normalized)
+        
+        #https://stackoverflow.com/questions/40273109/convert-python-opencv-mat-image-to-tensorflow-image-data
+        img = cv2.resize(np_img, dsize=(299,299), interpolation = cv2.INTER_CUBIC)
+        img = np.asarray(img)
+        img_res = np.expand_dims(img, axis=0)
         
         input_operation = self.__graph.get_operation_by_name('import/Mul')
         output_operation = self.__graph.get_operation_by_name('import/final_result')
