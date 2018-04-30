@@ -73,10 +73,10 @@ def load_labels(label_file):
 
 
 if __name__ == "__main__":
-  file_name = "tensorflow/examples/label_image/data/grace_hopper.jpg"
+  file_name = "example.jpg"
   model_file = \
-    "tensorflow/examples/label_image/data/inception_v3_2016_08_28_frozen.pb"
-  label_file = "tensorflow/examples/label_image/data/imagenet_slim_labels.txt"
+    "graph.pb"
+  label_file = "labels.txt"
   input_height = 299
   input_width = 299
   input_mean = 0

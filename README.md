@@ -30,11 +30,11 @@ Now, assuming you have the **retrain.py** script in a directory called `<$DIR>` 
 This command creates most directories needed, no need to already have any of them, except image_dir.
 ```
 # python retrain.py \
-  --bottleneck_dir=<$DIR>/bottlenecks \
+  --bottleneck_dir=bottlenecks/ \
   --how_many_training_steps=2000 \
-  --model_dir=<$DIR>/models/ \
-  --output_graph=<$DIR>/retrained_graph.pb \
-  --output_labels=<$DIR>/retrained_labels.txt \
+  --model_dir=models/ \
+  --output_graph=retrained_graph.pb \
+  --output_labels=retrained_labels.txt \
   --architecture="inception_v3" \
   --image_dir=<$JELLY_PHOTOS_DIR>
 ```
@@ -48,7 +48,7 @@ This command creates most directories needed, no need to already have any of the
 
   To classify an image with the **label_image.py** script or **label.sh** bash script you can call
   
-  ` python label_image.py --graph=<$PATH_TO_GRAPH.pb> --image=<$PATH_TO_IMAGE.jpg>`
+  ` python label_image.py --graph=<$PATH_TO_GRAPH.pb> --labels=<$PATH_TO_LABELS.txt> --image=<$PATH_TO_IMAGE.jpg>`
   
   The graph is located under "retrained_model"
   or with **label_image.py** and **label.sh** in same directory
