@@ -27,6 +27,7 @@ In order to retrain the model you must have the following prerequisites:
 
 Now, assuming you have the **retrain.py** script in a directory called `<$DIR>` (placeholder) you call
 
+This command creates most directories needed, no need to already have any of them, except image_dir.
 ```
 # python retrain.py \
   --bottleneck_dir=<$DIR>/bottlenecks \
@@ -37,16 +38,19 @@ Now, assuming you have the **retrain.py** script in a directory called `<$DIR>` 
   --architecture="inception_v3" \
   --image_dir=<$JELLY_PHOTOS_DIR>
 ```
+  The training data must be in JPEG format to retrain it.
   You can change how many training steps you want, default is 4,000.
   
   This will download the inception_v3 pretrained model, and then retrain the top layer on the image_dir provided.
   
   #### Classifying Images with New Model
   
+
   To classify an image with the **label_image.py** script or **label.sh** bash script you can call
   
   ` python label_image.py --graph=<$PATH_TO_GRAPH.pb> --image=<$PATH_TO_IMAGE.jpg>`
   
+  The graph is located under "retrained_model"
   or with **label_image.py** and **label.sh** in same directory
   
   `./label.sh <$PATH_TO_IMAGE.jpg>`
