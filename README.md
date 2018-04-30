@@ -6,7 +6,9 @@ The issue of determining jelly bean flavours is an age old problem. Many flavors
 
 In order to train the neural network we first needed to get training data jelly beans and flavors. This required manual sorting of a 2 lb. bag of Jelly Belly jelly beans. Now this opens the project up for human error, as we did not want to eat all of our training data to make sure it was the flavour we thought it was. 
 
-The setup involved placing jelly beans in the custom 3D printed tray, and taking a high-quality picture of them with adequate lighting. The camera was used essentially as a live view webcam and was used in parallel with the **collector.py** script. This will be nearly impossible to recreate unless you edit the script for your needs. 
+The setup involved placing jelly beans in the custom 3D printed tray, and taking a high-quality picture of them with adequate lighting. The camera was used essentially as a live view webcam and was used in parallel with the **collector.py** script. This will be nearly impossible to recreate unless you edit the script for your needs.
+
+When running the **collector.py** script, it can be controlled by opening `Code/Viewer/Browser/main.html` in a web browser.
 
 Upon collecting the data, you must put them in folders categorized by flavour, which a main directory containing all the subdirectories, for example:
 
@@ -54,3 +56,7 @@ This command creates most directories needed, no need to already have any of the
   or with **label_image.py** and **label.sh** in same directory
   
   `./label.sh <$PATH_TO_IMAGE.jpg>`
+  
+  #### Classifying Images with the Visual System
+  
+  To classify images from a webcam live view with the 3D printed tray, run **classifier.py**. Open `Code/Viewer/Browser/main.html` in a web browser to view results.
